@@ -12,9 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sous_categories', function (Blueprint $table) {
-             $table->id();
+            $table->id();
             $table->string('nom');
-            $table->foreignId('categorie_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('categorie_id')->constrained('categories')->onDelete('restrict');
+
+            // Nouveau champ image (nullable, chaîne de caractères pour chemin/image)
+            $table->string('image')->nullable();
+
             $table->timestamps();
         });
     }

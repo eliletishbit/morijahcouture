@@ -7,4 +7,18 @@
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
-@import 'custom-theme';      //overrides personnalisés sur les couleurs
+
+//////////////////////////////////////////////////////////////
+
+/* Import des styles tiers (CSS, librairies) via CSS pur ou SCSS */
+@import "../css/app.css"; // contient l'import FontAwesome etc.
+
+/* Import direct du thème si tu as une version SCSS, sinon le thème est chargé en CSS via asset séparé */
+
+/* Import du fichier des variables et overrides couleurs */
+@import "custom-theme.scss"; // variables CSS personnalisées
+
+/* Autres styles personnalisés en SCSS si besoin */
+/* Par exemple, tu pourrais avoir un fichier _layout.scss, _buttons.scss, etc. */
+
+// Ici tu peux mettre des règles globales ou variables supplémentaires si besoin

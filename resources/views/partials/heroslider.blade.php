@@ -5,11 +5,11 @@
       <!-- Slide 1 -->
       <div class="carousel-item active h-100" style="background: url('/assets/images/slider/slide-1.jpg') no-repeat center center; background-size: cover;">
         <div class="carousel-caption d-md-block text-start px-4 px-md-0" style="top: 50%; transform: translateY(-50%); left: 10;">
-          <span class="badge bg-warning text-dark fs-6" >Opening Sale Discount 50%</span>
-          <h2 class="display-5 fw-bold text-dark mt-3" style="color:antiquewhite !important;">SuperMarket For Fresh Grocery</h2>
-          <p class="lead text-dark" style="color:antiquewhite !important;" >Introduced a new model for online grocery shopping and convenient home delivery.</p>
-          <a href="#!" class="btn btn-dark mt-3">
-            Shop Now <i class="bi bi-arrow-right ms-1"></i>
+          {{-- <span class="badge bg-warning text-dark fs-6" >Opening Sale Discount 50%</span> --}}
+          <h2 class="display-5 fw-bold text-dark mt-3" style="color:antiquewhite !important;">Revêtez l'authenticité de votre être</h2>
+          <p class="lead text-dark fw-bold" style="color:white !important;" >Des vêtements faits pour vous, pas l'inverse.</p>
+          <a href="#!" class="btn btn-dark mt-3" style="background-color:#c7cccf; color:black;">
+            Decouvrir<i class="bi bi-arrow-right ms-1"></i>
           </a>
         </div>
       </div>
@@ -17,11 +17,11 @@
       <!-- Slide 2 -->
       <div class="carousel-item h-100" style="background: url('/assets/images/slider/slider-2.jpg') no-repeat center center; background-size: cover;">
         <div class="carousel-caption d-md-block text-start px-4 px-md-0" style="top: 50%; transform: translateY(-50%); left: 10;">
-          <span class="badge bg-warning text-dark fs-6">Free Shipping - orders over $100</span>
-          <h2 class="display-5 fw-bold text-dark mt-3" style="color:antiquewhite !important;">Free Shipping on<br/>orders over <span class="text-primary">$100</span></h2>
-          <p class="lead text-dark" style="color:antiquewhite !important;">Free Shipping to First-Time Customers Only, After promotions and discounts are applied.</p>
-          <a href="#!" class="btn btn-dark mt-3">
-            Shop Now <i class="bi bi-arrow-right ms-1"></i>
+          {{-- <span class="badge bg-warning text-dark fs-6">Free Shipping - orders over $100</span> --}}
+          <h2 class="display-5 fw-bold text-dark mt-3" style="color:antiquewhite !important;">Revêtez l'authenticité de votre être</h2>
+          <p class="lead text-dark fw-bold" style="color:white !important;" >Des vêtements faits pour vous, pas l'inverse.</p>
+          <a href="#!" class="btn btn-lg-dark mt-3" style="background-color:#c7cccf; color:black;">
+            Decouvrir<i class="bi bi-arrow-right ms-1"></i>
           </a>
         </div>
       </div>

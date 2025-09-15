@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('type');
+            $table->string('image')->nullable();
             $table->foreignId('catalogue_id')->constrained('catalogue_echantillons')->onDelete('cascade');
             $table->timestamps();
         });

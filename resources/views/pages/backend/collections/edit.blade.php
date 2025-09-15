@@ -34,9 +34,9 @@
             </select>
         </div>
 
-        <div class="mb-3">
+         <div class="mb-3">
             <label for="image_principale" class="form-label">Image principale (URL ou chemin relatif)</label>
-            <input type="text" name="image_principale" class="form-control" value="{{ old('image_principale', $collection->image_principale) }}">
+            <input type="file" name="image_principale" class="form-control" value="{{ old('image_principale') }}">
         </div>
 
         <button type="submit" class="btn btn-primary">Mettre à jour</button>

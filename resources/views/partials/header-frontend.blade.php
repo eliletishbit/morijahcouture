@@ -1,9 +1,11 @@
  <!-- navbar -->
       <div class="border-bottom">
-         <div class="bg-light py-1">
-            <div class="container">
-               <div class="row">
-                  <div class="col-md-6 col-12 text-center text-md-start"><span>Super Value Deals - Save more with coupons</span></div>
+
+         {{-- Debut banneiere langues --}}
+         <div class=" py-4 bannierelangues" style="background-color:#2a2720; color:white; height:50px; ">
+            <div class="container" >
+               <div class="row" >
+                  <div class="col-md-6 col-12 text-center text-md-center" ><span>Garantie d'ajustement parfait - 100% unique</span></div>
                   <div class="col-6 text-end d-none d-md-block">
                      <div class="dropdown selectBox">
                         <a class="dropdown-toggle selectValue text-reset" href="javascript:void(0)" data-bs-toggle="dropdown" aria-expanded="false">
@@ -75,8 +77,11 @@
                      </div>
                   </div>
                </div>
-            </div>
+            </div>            
          </div>
+         {{-- FIN BANNEIERE  langues --}}
+
+         {{-- debut deuxieme mligne: logo , barre de recherche , icones deconnexion --}}
          <div class="py-5">
             <div class="container">
                <div class="row w-100 align-items-center gx-lg-2 gx-0">
@@ -89,19 +94,15 @@
                               d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm10.646 2.146a.5.5 0 0 1 .708.708L11.707 8l1.647 1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2zM2 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
                         </svg>
                      </button>
-                     <a class="navbar-brand d-none d-lg-block" href="index.html">
-                        <img src="assets/images/logo/freshcart-logo.svg" alt="eCommerce HTML Template" />
-                     </a>
-                     <div class="d-flex justify-content-between w-100 d-lg-none">
-                        <a class="navbar-brand" href="index.html">
-                           <img src="assets/images/logo/freshcart-logo.svg" alt="eCommerce HTML Template" />
-                        </a>
-                     </div>
+                     {{-- logo du site --}}
+                     <a class="navbar-brand d-none d-lg-block" href="{{route('welcome.index')}}">
+                        <img style="width:50px; " src="{{asset('assets/images/logo/logomorijah.png')}}" alt="eCommerce HTML Template" />
+                     </a>                    
                   </div>
                   <div class="col-xxl-5 col-lg-5 d-none d-lg-block">
                      <form action="#">
                         <div class="input-group">
-                           <input class="form-control rounded" type="search" placeholder="Search for products" />
+                           <input class="form-control rounded" type="search" placeholder="Rechercher un produit" />
                            <span class="input-group-append">
                               <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end" type="button">
                                  <svg
@@ -127,7 +128,7 @@
                      <!-- Button trigger modal -->
                      <button type="button" class="btn btn-outline-gray-400 text-muted" data-bs-toggle="modal" data-bs-target="#locationModal">
                         <i class="feather-icon icon-map-pin me-2"></i>
-                        Location
+                        Emplacements
                      </button>
                   </div>
                 
@@ -171,7 +172,7 @@
                               </svg>
                               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
                                  5
-                                 <span class="visually-hidden">unread messages</span>
+                                 <span class="visually-hidden">messages non lus</span>
                               </span>
                            </a>
                         </div>
@@ -212,7 +213,7 @@
                               </svg>
                               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
                                  1
-                                 <span class="visually-hidden">unread messages</span>
+                                 <span class="visually-hidden">messages lus</span>
                               </span>
                            </a>
                         </div>  
@@ -238,19 +239,23 @@
                </div>
             </div>
          </div>
+         {{-- fin deuxieme ligne --}}
 
-         <nav class="navbar navbar-expand-lg navbar-light navbar-default py-0 pb-lg-4" aria-label="Offcanvas navbar large">
+
+         {{-- debut navigation offcanva --}}
+
+         <nav  class="navbar navbar-expand-lg navbar-light navbar-default py-0 pb-lg-4" aria-label="Offcanvas navbar large">
             <div class="container">
-               <div class="offcanvas offcanvas-start" tabindex="-1" id="navbar-default" aria-labelledby="navbar-defaultLabel">
+               <div class="offcanvas offcanvas-start truehomeoffcanva" tabindex="-1" id="navbar-default" aria-labelledby="navbar-defaultLabel">
                   <div class="offcanvas-header pb-1">
-                     <a href="index.html"><img src="assets/images/logo/freshcart-logo.svg" alt="eCommerce HTML Template" /></a>
+                     <a href="{{route('welcome.index')}}"><img style="width:50px;" src="{{asset('assets/images/logo/logomorijah.png')}}" alt="eCommerce HTML Template" /></a>
                      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                   </div>
                   <div class="offcanvas-body">
                      <div class="d-block d-lg-none mb-4">
                         <form action="#">
                            <div class="input-group">
-                              <input class="form-control rounded" type="search" placeholder="Search for products" />
+                              <input class="form-control rounded" type="search" placeholder="Rechercher un produit" />
                               <span class="input-group-append">
                                  <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end" type="button">
                                     <svg
@@ -274,11 +279,11 @@
                         <div class="mt-2">
                            <button type="button" class="btn btn-outline-gray-400 text-muted w-100" data-bs-toggle="modal" data-bs-target="#locationModal">
                               <i class="feather-icon icon-map-pin me-2"></i>
-                              Pick Location
+                              Choisir un Emplacement
                            </button>
                         </div>
                      </div>
-                     <div class="d-block d-lg-none mb-4">
+                     {{-- <div class="d-block d-lg-none mb-4">
                         <a
                            class="btn btn-primary w-100 d-flex justify-content-center align-items-center"
                            data-bs-toggle="collapse"
@@ -304,24 +309,24 @@
                                  <rect x="3" y="14" width="7" height="7"></rect>
                               </svg>
                            </span>
-                           All Departments
+                          Toutes les categories
                         </a>
                         <div class="collapse mt-2" id="collapseExample">
                            <div class="card card-body">
                               <ul class="mb-0 list-unstyled">
-                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Dairy, Bread & Eggs</a></li>
-                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Snacks & Munchies</a></li>
-                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Fruits & Vegetables</a></li>
-                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Cold Drinks & Juices</a></li>
-                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Breakfast & Instant Food</a></li>
-                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Bakery & Biscuits</a></li>
-                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Chicken, Meat & Fish</a></li>
+                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Lookbooks</a></li>
+                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Vêtements</a></li>
+                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Occasion</a></li>
+                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Chaussures</a></li>
+                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Accessoires</a></li>
+                                 <li><a class="dropdown-item" href="pages/shop-grid.html">Femme</a></li>
+                                 <li><a class="dropdown-item" href="pages/shop-grid.html">A propos</a></li>
                               </ul>
                            </div>
                         </div>
-                     </div>
+                     </div> --}}
                      <div class="dropdown me-3 d-none d-lg-block">
-                        <button class="btn btn-primary px-6" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-primary px-6 alldepartement" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                            <span class="me-1">
                               <svg
                                  xmlns="http://www.w3.org/2000/svg"
@@ -340,34 +345,30 @@
                                  <rect x="3" y="14" width="7" height="7"></rect>
                               </svg>
                            </span>
-                           All Departments
+                          Toutes les categories
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                           <li><a class="dropdown-item" href="pages/shop-grid.html">Dairy, Bread & Eggs</a></li>
-                           <li><a class="dropdown-item" href="pages/shop-grid.html">Snacks & Munchies</a></li>
-                           <li><a class="dropdown-item" href="pages/shop-grid.html">Fruits & Vegetables</a></li>
-                           <li><a class="dropdown-item" href="pages/shop-grid.html">Cold Drinks & Juices</a></li>
-                           <li><a class="dropdown-item" href="pages/shop-grid.html">Breakfast & Instant Food</a></li>
-                           <li><a class="dropdown-item" href="pages/shop-grid.html">Bakery & Biscuits</a></li>
-                           <li><a class="dropdown-item" href="pages/shop-grid.html">Chicken, Meat & Fish</a></li>
+                           @foreach($categories as $category)
+                              <li>
+                                    <a class="dropdown-item" href="{{ route('shop.grid', ['categorie' => $category->id]) }}">
+                                       {{ $category->nom }}
+                                    </a>
+                              </li>
+                           @endforeach
                         </ul>
                      </div>
                      <div>
-                        <ul class="navbar-nav align-items-center">
+                        <ul class="navbar-nav align-items-center" style="font-size:3.7rem;">
                            <li class="nav-item dropdown w-100 w-lg-auto">
-                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Home <i class="bi bi-chevron-down ms-1"></i> </a>
-
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Accueil  </a>
+                              {{-- menu accueil dropdown --}}
                               <ul class="dropdown-menu">
-                                 <li><a class="dropdown-item" href="index.html">Home 1</a></li>
-                                 <li><a class="dropdown-item" href="pages/index-2.html">Home 2</a></li>
-                                 <li><a class="dropdown-item" href="pages/index-3.html">Home 3</a></li>
-                                 <li><a class="dropdown-item" href="pages/index-4.html">Home 4</a></li>
-                                 <li>
-                                    <a class="dropdown-item" href="pages/index-5.html">Home 5</a>
-                                 </li>
+                                 <li><a class="dropdown-item" href="index.html">A propos</a></li>
+                                 <li><a class="dropdown-item" href="pages/index-2.html">Contact</a></li>
+                                 <li><a class="dropdown-item" href="pages/index-3.html">Blog</a></li>                                
                               </ul>
                            </li>
-                           <li class="nav-item dropdown w-100 w-lg-auto">
+                           {{-- <li class="nav-item dropdown w-100 w-lg-auto">
                               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
                               <ul class="dropdown-menu">
                                  <li><a class="dropdown-item" href="pages/shop-grid.html">Shop Grid - Filter</a></li>
@@ -453,8 +454,8 @@
                                  <li><a class="dropdown-item" href="pages/404error.html">404 Error</a></li>
                                  <li><a class="dropdown-item" href="pages/contact.html">Contact</a></li>
                               </ul>
-                           </li>
-                           <li class="nav-item dropdown w-100 w-lg-auto">
+                           </li> --}}
+                           {{-- <li class="nav-item dropdown w-100 w-lg-auto">
                               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
                               <ul class="dropdown-menu">
                                  <li><a class="dropdown-item" href="pages/signin.html">Sign in</a></li>
@@ -507,6 +508,18 @@
                                     </div>
                                  </a>
                               </div>
+                           </li> --}}
+                           <li class="nav-item w-100 w-lg-auto">
+                              <a class="nav-link" href="dashboard/index.html">Lookbooks</a>
+                           </li>
+                             <li class="nav-item w-100 w-lg-auto">
+                              <a class="nav-link" href="dashboard/index.html">Vêtements sur mesure</a>
+                           </li>
+                             <li class="nav-item w-100 w-lg-auto">
+                              <a class="nav-link" href="dashboard/index.html">Chaussures sur mesure</a>
+                           </li>
+                             <li class="nav-item w-100 w-lg-auto">
+                              <a class="nav-link" href="dashboard/index.html">Femmes</a>
                            </li>
                         </ul>
                      </div>
@@ -523,7 +536,7 @@
          <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content p-4">
                <div class="modal-header border-0">
-                  <h5 class="modal-title fs-3 fw-bold" id="userModalLabel">Sign Up</h5>
+                  <h5 class="modal-title fs-3 fw-bold" id="userModalLabel">S' inscrire</h5>
 
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
@@ -591,8 +604,8 @@
                     </form>
                </div>
                <div class="modal-footer border-0 justify-content-center">
-                  Already have an account?
-                  <a href="{{ route('login') }}">Sign in</a>
+                  Vous avez dejà un compte?
+                  <a href="{{ route('login') }}">Connectez-vous</a>
                </div>
             </div>
          </div>

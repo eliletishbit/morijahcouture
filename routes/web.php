@@ -1,47 +1,48 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 
 
 //imports controllers admin
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\SousCategoryController;
-use App\Http\Controllers\Admin\CollectionController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\CaracteristiqueProduitController;
-use App\Http\Controllers\Admin\LookbookController;
-use App\Http\Controllers\Admin\ImageLookbookController;
-use App\Http\Controllers\Admin\VideoLookbookController;
-use App\Http\Controllers\Admin\PointInteractifController;
-use App\Http\Controllers\Admin\OptionPersonnalisationController;
-use App\Http\Controllers\Admin\ValeurOptionController;
-use App\Http\Controllers\Admin\CatalogueEchantillonController;
-use App\Http\Controllers\Admin\EchantillonController;
-use App\Http\Controllers\Admin\CarteCadeauController;
-use App\Http\Controllers\Admin\AvisProduitController;
-use App\Http\Controllers\Admin\IdeeProduitController;
-use App\Http\Controllers\Admin\CategorieIdeeProduitController;
-use App\Http\Controllers\Admin\ModeLivraisonController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommandeController;
-use App\Http\Controllers\Admin\MethodePaiementController;
+use App\Http\Controllers\Admin\LookbookController;
 use App\Http\Controllers\Admin\PaiementController;
+use App\Http\Controllers\Admin\CollectionController;
+use App\Http\Controllers\Admin\AvisProduitController;
+use App\Http\Controllers\Admin\CarteCadeauController;
+use App\Http\Controllers\Admin\EchantillonController;
+use App\Http\Controllers\Admin\IdeeProduitController;
 use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\SousCategoryController;
+use App\Http\Controllers\Admin\ValeurOptionController;
+use App\Http\Controllers\Admin\ImageLookbookController;
+use App\Http\Controllers\Admin\ModeLivraisonController;
+use App\Http\Controllers\Admin\VideoLookbookController;
+use App\Http\Controllers\Admin\MethodePaiementController;
+use App\Http\Controllers\Admin\PointInteractifController;
+use App\Http\Controllers\Admin\CatalogueEchantillonController;
+use App\Http\Controllers\Admin\CategorieIdeeProduitController;
+use App\Http\Controllers\Admin\CaracteristiqueProduitController;
+use App\Http\Controllers\Admin\OptionPersonnalisationController;
 
 
 //import controllers user
-use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\OrderController as UserOrderController;
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\User\PaymentMethodController as UserPaymentMethodController;
 
 
-// Page d'accueil Laravel classique
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+
+
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
+Route::get('/shop', [WelcomeController::class, 'shop'])->name('shop.grid');
 
 
 //Dashboard (à adapter selon ton nouveau stack, ici Blade)

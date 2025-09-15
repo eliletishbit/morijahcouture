@@ -1,5 +1,3 @@
-{{-- liste des sous categories --}}
-
 @extends('layouts.backendapp')
 
 @section('content')
@@ -17,6 +15,7 @@
             <tr>
                 <th>Nom</th>
                 <th>Catégorie parente</th>
+                <th>Image</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -26,10 +25,17 @@
                 <td>{{ $sousCategorie->nom }}</td>
                 <td>{{ $sousCategorie->categorie->nom ?? 'Non définie' }}</td>
                 <td>
+                    @if ($sousCategorie->image)
+                        <img src="{{ asset('storage/' . $sousCategorie->image) }}" alt="{{ $sousCategorie->nom }}" style="max-width: 100px; height: auto;">
+                    @else
+                        Aucune image
+                    @endif
+                </td>
+                <td>
                     <a href="{{ route('admin.sous-categories.show', $sousCategorie) }}" class="btn btn-info btn-sm">Voir</a>
                     <a href="{{ route('admin.sous-categories.edit', $sousCategorie) }}" class="btn btn-warning btn-sm">Modifier</a>
-                    <form action="{{ route('admin.sous-categories.destroy', $sousCategorie) }}" method="POST" style="display:inline-block"
-                          onsubmit="return confirm('Voulez-vous vraiment supprimer cette sous-catégorie ?');">
+                    <form action="{{ route('admin.sous-categories.destroy', $sousCategorie) }}" method="POST" class="d-inline"
+                        onsubmit="return confirm('Voulez-vous vraiment supprimer cette sous-catégorie ?');">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>

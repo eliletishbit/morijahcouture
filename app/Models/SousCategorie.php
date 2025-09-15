@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SousCategorie extends Model
 {
     //
-     protected $fillable = ['nom', 'categorie_id'];
+     protected $fillable = ['nom', 'categorie_id', 'image'];
 
     public function categorie()
     {
@@ -17,5 +17,10 @@ class SousCategorie extends Model
     public function collections()
     {
         return $this->hasMany(Collection::class);
+    }
+    
+       public function produits(): HasMany
+    {
+        return $this->hasMany(Produit::class);
     }
 }

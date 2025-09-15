@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CatalogueEchantillon extends Model
 {
     //
-    protected $fillable = ['nom', 'description'];
+    protected $fillable = ['nom', 'description', 'image'];
 
     public function echantillons()
     {

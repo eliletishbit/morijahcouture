@@ -23,15 +23,23 @@ class CollectionController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nom' => 'required|string|max:255|unique:collections,nom',
-            'image_principale' => 'nullable|string|max:255',
-            'sous_categorie_id' => 'required|exists:sous_categories,id',
+         $request->validate([
+        'nom' => 'required|string|max:255|unique:collections,nom',
+        'image_principale' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'sous_categorie_id' => 'required|exists:sous_categories,id',
         ]);
 
-        Collection::create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('image_principale')) {
+            $path = $request->file('image_principale')->store('collections_images', 'public');
+            $data['image_principale'] = $path;
+        }
+
+        Collection::create($data);
 
         return redirect()->route('admin.collections.index')->with('success', 'Collection créée avec succès.');
+        
     }
 
     public function show(Collection $collection)
@@ -49,19 +57,26 @@ class CollectionController extends Controller
     {
         $request->validate([
             'nom' => 'required|string|max:255|unique:collections,nom,' . $collection->id,
-            'image_principale' => 'nullable|string|max:255',
-            'sous_categorie_id' => 'required|exists:sous_categories,id',
+           'image_principale' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'sous_categorie_id' => 'required|exists:sous_categories,id',
         ]);
 
-        $collection->update($request->all());
+        $data = $request->all();
 
-        return redirect()->route('pages.admin.collections.index')->with('success', 'Collection mise à jour avec succès.');
+        if ($request->hasFile('image_principale')) {
+            $path = $request->file('image_principale')->store('collections_images', 'public');
+            $data['image_principale'] = $path;
+        }
+
+        $collection->update($data);
+
+        return redirect()->route('admin.collections.index')->with('success', 'Collection mise à jour avec succès.');
     }
 
     public function destroy(Collection $collection)
     {
         $collection->delete();
 
-        return redirect()->route('pages.admin.collections.index')->with('success', 'Collection supprimée avec succès.');
+        return redirect()->route('admin.collections.index')->with('success', 'Collection supprimée avec succès.');
     }
 }

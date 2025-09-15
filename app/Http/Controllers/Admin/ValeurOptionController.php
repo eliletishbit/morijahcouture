@@ -3,63 +3,95 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ValeurOption;
+use App\Models\OptionPersonnalisation;
 use Illuminate\Http\Request;
 
 class ValeurOptionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $valeurOptions = ValeurOption::with('optionPersonnalisation')->paginate(15);
+        return view('pages.backend.valeuroptions.index', compact('valeurOptions'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $options = OptionPersonnalisation::all();
+        return view('pages.backend.valeuroptions.create', compact('options'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'option_personnalisation_id' => 'required|exists:option_personnalisations,id',
+            'valeur' => 'required|string|max:255',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        $valeurOption = new ValeurOption();
+        $valeurOption->option_personnalisation_id = $request->option_personnalisation_id;
+        $valeurOption->valeur = $request->valeur;
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('valeur_options', 'public');
+            $valeurOption->image = $path;
+        }
+
+        $valeurOption->save();
+
+        return redirect()->route('admin.valeur-options.index')->with('success', 'Valeur option créée avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $valeurOption = ValeurOption::with('optionPersonnalisation')->findOrFail($id);
+        return view('pages.backend.valeuroptions.show', compact('valeurOption'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $valeurOption = ValeurOption::findOrFail($id);
+        $options = OptionPersonnalisation::all();
+        return view('pages.backend.valeuroptions.edit', compact('valeurOption', 'options'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $valeurOption = ValeurOption::findOrFail($id);
+
+        $request->validate([
+            'option_personnalisation_id' => 'required|exists:option_personnalisations,id',
+            'valeur' => 'required|string|max:255',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        $valeurOption->option_personnalisation_id = $request->option_personnalisation_id;
+        $valeurOption->valeur = $request->valeur;
+
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($valeurOption->image && \Storage::disk('public')->exists($valeurOption->image)) {
+                \Storage::disk('public')->delete($valeurOption->image);
+            }
+            $path = $request->file('image')->store('valeur_options', 'public');
+            $valeurOption->image = $path;
+        }
+
+        $valeurOption->save();
+
+        return redirect()->route('admin.valeur-options.index')->with('success', 'Valeur option mise à jour avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $valeurOption = ValeurOption::findOrFail($id);
+        // Delete image if exists
+        if ($valeurOption->image && \Storage::disk('public')->exists($valeurOption->image)) {
+            \Storage::disk('public')->delete($valeurOption->image);
+        }
+        $valeurOption->delete();
+
+        return redirect()->route('admin.valeur-options.index')->with('success', 'Valeur option supprimée avec succès.');
     }
 }

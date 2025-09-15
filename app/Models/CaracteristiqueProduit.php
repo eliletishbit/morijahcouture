@@ -7,10 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class CaracteristiqueProduit extends Model
 {
     //
-    protected $fillable = ['produit_id', 'type', 'valeur'];
+    protected $fillable = ['categorie_id', 'type', 'valeur'];
 
-    public function produit()
+    /**
+     * Relation vers Categorie.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function categorie(): BelongsTo
     {
-        return $this->belongsTo(Produit::class);
+        return $this->belongsTo(Categorie::class);
     }
 }

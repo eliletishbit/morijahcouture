@@ -10,17 +10,16 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles & Scripts compilés par Vite -->
-    @vite(['resources/sass/app.scss', 'resources/assets/css/theme.min.css', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/assets/css/theme.min.css','resources/js/app.js'])
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link href="{{ asset('assets/libs/bootstrap-icons/font/bootstrap-icons.min.css') }}" rel="stylesheet" />
-
 
     <!-- Styles spécifiques template chargés après Bootstrap/Vite -->
     <link href="{{ asset('assets/libs/slick-carousel/slick/slick.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/libs/slick-carousel/slick/slick-theme.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/libs/tiny-slider/dist/tiny-slider.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/theme.min.css') }}" rel="stylesheet" />
+   
 
     <!-- Scripts async dans head (Google, Clarity, etc.) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
@@ -41,7 +40,7 @@
         @include('partials.header-frontend')
         @include('partials.sidebar-frontend')
 
-        <main>
+        <main class="container-fluid " >
             @yield('content')
         </main>
 
@@ -66,5 +65,9 @@
       <script src="{{ asset('assets/libs/tiny-slider/dist/min/tiny-slider.js')}}"></script>
       <script src="{{ asset('assets/js/vendors/tns-slider.js')}}"></script>
       <script src="{{ asset('assets/js/vendors/zoom.js')}}"></script>
+<script src="{{asset('assets/js/custom.min.js')}}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   
 </body>
 </html>

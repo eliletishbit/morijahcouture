@@ -1,8 +1,188 @@
 :root {
-  --fc-cafe: #ab5440;
+  --fc-cafe: #ab5440 !important;
   --fc-relousoir: #2a2720;
   --fc-relousgris: #c7cccf;
 }
 
 /* Ajoutez d'autres overrides CSS ici */
-/* --fc-cafe:#ab5440;--fc-relounoir:#2a2720;--fc-relougris:#c7cccf; */
+//bouton du header
+.alldepartement{
+    background-color:#ab5440 !important;
+    color:white;
+    border:0px !important;
+}
+
+//modification des styles des categories en detette sur l'accueil
+/* Double la taille des images dans category-slider */
+.category-slider .item img {
+    width: 600px !important;  /* double la largeur */
+    height: 400px !important; /* double la hauteur */
+    object-fit: cover;        /* Pour que l'image remplisse bien le cadre */
+}
+
+/* Ajustement du conteneur item pour correspondre */
+.category-slider .item {
+    width: auto;  /* Peut être ajusté selon le conteneur du slider */
+    max-width: 600px; /* Exemple de largeur max doublée (à ajuster) */
+    height: auto;
+    min-height: 300px; /* Exemple hauteur doublée (à ajuster) */
+    margin: 0 auto; /* Centrer l'item */
+}
+
+/* Pour que le texte sous l'image soit bien visible */
+.category-slider .item .text-truncate {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+
+.carousel-inner {
+    display: flex !important; /* ligne flexible pour afficher les items côte à côte */
+    gap: 8px; /* petit espacement */
+}
+
+.carousel-item {
+    flex: 0 0 auto; /* bloque la largeur à son contenu */
+}
+
+.product-image:hover {
+    filter: blur(2px);
+}
+
+.position-relative:hover .buy-look-btn {
+    opacity: 1 !important;
+}
+
+.carousel-control-next {
+    /* styles personnalisés pour le bouton */
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -40px; /* pousser hors du carousel */
+    position: absolute;
+}
+
+
+///section ideetenues
+.product-image:hover {
+    filter: blur(2px);
+}
+
+.position-relative:hover .buy-look-btn {
+    opacity: 1 !important;
+}
+
+
+/// VIDEO DE L ACCUEIL
+ .custom-section {
+            background-color: #c7cccf;
+            padding: 5rem 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .btn-custom {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 2px;
+            transition: all 0.3s;
+            border: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .btn-custom:hover {
+            background-color: #1a252f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .video-container {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+        .video-container:hover {
+            transform: translateY(-5px);
+        }
+        .title {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .lead {
+            color: #34495e;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        .content-text {
+            padding-right: 2rem;
+        }
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+        .play-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        .play-btn i {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-left: 4px;
+        }
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.1));
+            opacity: 1;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .video-playing .video-overlay {
+            opacity: 0;
+        }
+        @media (max-width: 992px) {
+            .content-text {
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+        }
+
+///// STYLES IDEES TENUES ACCUEIL
+/// /* Flouter l'image au survol */
+.product-image:hover {
+  filter: blur(3px);
+  transition: filter 0.3s ease;
+}
+
+/* Afficher le bouton au survol */
+.position-relative:hover .buy-look-btn {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+//////////////////////// section complemenaire accueil
+.complementarysection{
+
+}
+.ideetenue{
+
+}

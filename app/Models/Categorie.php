@@ -13,4 +13,15 @@ class Categorie extends Model
     {
         return $this->hasMany(SousCategorie::class);
     }
+
+    public function caracteristiques(): HasMany
+    {
+        return $this->hasMany(CaracteristiqueProduit::class);
+    }
+
+    // Relations supplémentaires possibles, ex : produits
+    public function produits(): HasMany
+    {
+        return $this->hasMany(Produit::class);
+    }
 }

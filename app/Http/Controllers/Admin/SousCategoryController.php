@@ -24,16 +24,23 @@ class SousCategoryController extends Controller
     }
 
     // Enregistrer une nouvelle sous-catégorie
-    public function store(Request $request)
+     public function store(Request $request)
     {
-        $request->validate([
-            'nom' => 'required|string|max:255|unique:sous_categories,nom',
+        $data = $request->validate([
+            'nom' => 'required|string|max:255',
             'categorie_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image', // validation image optionnelle
         ]);
 
-        SousCategorie::create($request->all());
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('sous_categories_images', 'public');
+            $data['image'] = $path;
+        }
 
-        return redirect()->route('admin.sous-categories.index')->with('success', 'Sous-catégorie créée avec succès.');
+        SousCategorie::create($data);
+
+        return redirect()->route('admin.sous-categories.index')->with('success', 'Sous-catégorie ajoutée avec succès.');
+   
     }
 
     // Affiche une sous-catégorie précise
@@ -59,7 +66,8 @@ class SousCategoryController extends Controller
 
         $sous_category->update($request->all());
 
-        return redirect()->route('admin.sous-categories.index')->with('success', 'Sous-catégorie mise à jour.');
+       return redirect()->route('admin.sous-categories.index')->with('success', 'Sous-catégorie ajoutée avec succès.');
+   
     }
 
     // Supprime la sous-catégorie

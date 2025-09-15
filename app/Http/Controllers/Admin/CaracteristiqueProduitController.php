@@ -3,63 +3,73 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
+use App\Models\Produit;
+
+use App\Models\CaracteristiqueProduit;
+use App\Models\Categorie;
 use Illuminate\Http\Request;
 
 class CaracteristiqueProduitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $caracteristiques = CaracteristiqueProduit::with('categorie')->paginate(15);
+        return view('pages.backend.caracteristiquesproduits.index', compact('caracteristiques'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $categories = Categorie::all();
+        return view('pages.backend.caracteristiquesproduits.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'categorie_id' => 'required|exists:categories,id',
+            'type' => 'required|string|max:255',
+            'valeur' => 'required|string|max:255',
+        ]);
+
+        CaracteristiqueProduit::create($request->only('categorie_id', 'type', 'valeur'));
+
+        return redirect()->route('admin.caracteristique-produits.index')->with('success', 'Caractéristique créée avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $caracteristique = CaracteristiqueProduit::with('categorie')->findOrFail($id);
+        return view('pages.backend.caracteristiquesproduits.show', compact('caracteristique'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $caracteristique = CaracteristiqueProduit::findOrFail($id);
+        $categories = Categorie::all();
+        return view('pages.backend.caracteristiquesproduits.edit', compact('caracteristique', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $caracteristique = CaracteristiqueProduit::findOrFail($id);
+
+        $request->validate([
+            'categorie_id' => 'required|exists:categories,id',
+            'type' => 'required|string|max:255',
+            'valeur' => 'required|string|max:255',
+        ]);
+
+        $caracteristique->update($request->only('categorie_id', 'type', 'valeur'));
+
+        return redirect()->route('admin.caracteristique-produits.index')->with('success', 'Caractéristique mise à jour avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $caracteristique = CaracteristiqueProduit::findOrFail($id);
+        $caracteristique->delete();
+
+        return redirect()->route('admin.caracteristique-produits.index')->with('success', 'Caractéristique supprimée avec succès.');
     }
 }

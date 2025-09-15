@@ -3,63 +3,92 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Echantillon;
+use App\Models\CatalogueEchantillon;
 use Illuminate\Http\Request;
 
 class EchantillonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $echantillons = Echantillon::with('catalogue')->paginate(15);
+        return view('pages.backend.echantillons.index', compact('echantillons'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $catalogues = CatalogueEchantillon::all();
+        return view('pages.backend.echantillons.create', compact('catalogues'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
-    {
-        //
+{
+    $request->validate([
+        'nom' => 'required|string|max:255',
+        'type' => 'required|string|max:100',
+        'catalogue_id' => 'required|exists:catalogue_echantillons,id',
+        'image' => 'nullable|image|max:2048',
+    ]);
+
+    $echantillon = new Echantillon();
+    $echantillon->nom = $request->nom;
+    $echantillon->type = $request->type;
+    $echantillon->catalogue_id = $request->catalogue_id;
+
+    if ($request->hasFile('image')) {
+        $echantillon->image = $request->file('image')->store('echantillons', 'public');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    $echantillon->save();
+
+    return redirect()->route('admin.echantillons.index')->with('success', 'Échantillon créé avec succès.');
+}
+
+    public function show($id)
     {
-        //
+        $echantillon = Echantillon::with('catalogue')->findOrFail($id);
+        return view('pages.backend.echantillons.show', compact('echantillon'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $echantillon = Echantillon::findOrFail($id);
+        $catalogues = CatalogueEchantillon::all();
+        return view('pages.backend.echantillons.edit', compact('echantillon', 'catalogues'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, $id)
+{
+    $echantillon = Echantillon::findOrFail($id);
+
+    $request->validate([
+        'nom' => 'required|string|max:255',
+        'type' => 'required|string|max:100',
+        'catalogue_id' => 'required|exists:catalogue_echantillons,id',
+        'image' => 'nullable|image|max:2048',
+    ]);
+
+    $echantillon->nom = $request->nom;
+    $echantillon->type = $request->type;
+    $echantillon->catalogue_id = $request->catalogue_id;
+
+    if ($request->hasFile('image')) {
+        if ($echantillon->image && Storage::disk('public')->exists($echantillon->image)) {
+            Storage::disk('public')->delete($echantillon->image);
+        }
+
+        $echantillon->image = $request->file('image')->store('echantillons', 'public');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    $echantillon->save();
+
+    return redirect()->route('admin.echantillons.index')->with('success', 'Échantillon mis à jour avec succès.');
+}
+    public function destroy($id)
     {
-        //
+        $echantillon = Echantillon::findOrFail($id);
+        $echantillon->delete();
+
+        return redirect()->route('admin.echantillons.index')->with('success', 'Échantillon supprimé avec succès.');
     }
 }

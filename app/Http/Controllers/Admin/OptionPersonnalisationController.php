@@ -3,63 +3,65 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\OptionPersonnalisation;
 use Illuminate\Http\Request;
 
 class OptionPersonnalisationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $options = OptionPersonnalisation::paginate(15);
+        return view('pages.backend.optionspersonnalisations.index', compact('options'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('pages.backend.optionspersonnalisations.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom_option' => 'required|string|max:255',
+            'type_option' => 'required|string|max:100',
+        ]);
+
+        OptionPersonnalisation::create($request->only('nom_option', 'type_option'));
+
+        return redirect()->route('admin.option-personnalisations.index')->with('success', 'Option de personnalisation créée avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $option = OptionPersonnalisation::findOrFail($id);
+        return view('pages.backend.optionspersonnalisations.show', compact('option'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $option = OptionPersonnalisation::findOrFail($id);
+        return view('pages.backend.optionspersonnalisations.edit', compact('option'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $option = OptionPersonnalisation::findOrFail($id);
+
+        $request->validate([
+            'nom_option' => 'required|string|max:255',
+            'type_option' => 'required|string|max:100',
+        ]);
+
+        $option->update($request->only('nom_option', 'type_option'));
+
+        return redirect()->route('admin.option-personnalisations.index')->with('success', 'Option de personnalisation mise à jour avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $option = OptionPersonnalisation::findOrFail($id);
+        $option->delete();
+
+        return redirect()->route('admin.option-personnalisations.index')->with('success', 'Option de personnalisation supprimée avec succès.');
     }
 }

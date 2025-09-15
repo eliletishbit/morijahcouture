@@ -7,11 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class Produit extends Model
 {
     //
-    protected $fillable = [
-        'nom', 'description', 'prix_base', 'collection_id', 'sous_categorie_id',
-        'personnalisable', 'type_produit', 'gamme_taille', 'tissu_id',
-        'delai_fabrication', 'delai_livraison'
-    ];
+  protected $fillable = [
+    'image_produit',
+    'nom',
+    'description',
+    'prix_base',
+    'collection_id',
+    'sous_categorie_id',
+    'personnalisable',
+    'type_produit',
+    'gamme_taille',
+    'materiau_id',
+    'delai_fabrication',
+    'delai_livraison',
+];
 
     public function collection()
     {
@@ -33,5 +42,15 @@ class Produit extends Model
         return $this->belongsToMany(Commande::class, 'commande_produit')
                     ->withPivot('quantite', 'prix_unitaire', 'prix_total')
                     ->withTimestamps();
+    }
+
+     public function materiau()
+    {
+        return $this->belongsTo(Materiau::class);
+    }
+
+      public function pieces()
+    {
+        return $this->belongsToMany(Piece::class, 'piece_produit');
     }
 }
