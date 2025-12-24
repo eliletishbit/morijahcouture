@@ -14,4 +14,4 @@ $kernel->call('route:clear');
 $kernel->call('config:clear');
 $kernel->call('view:clear');
 
-echo "Caches Laravel vidés avec succès.";
+echo "Caches Laravel vidés avec sccès.";
