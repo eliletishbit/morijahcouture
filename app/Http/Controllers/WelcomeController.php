@@ -32,6 +32,14 @@ class WelcomeController extends Controller
         return view('welcome', compact('categories', 'produits', 'sousCategories', 'tenueproduits'));
     }
 
+    public function shop(){
+        $categories = Categorie::all();
+        $sousCategories = SousCategorie::all();
+        $products= Produit::paginate(12);
+
+        return view('pages.frontend.shop.grid', compact('categories','products','sousCategories'));
+    }
+
     
 
 }

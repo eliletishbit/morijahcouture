@@ -186,3 +186,23 @@
 .ideetenue{
 
 }
+
+
+
+//////////////////////////gestion de l'affichage du heuder, sidebar content du layout back
+.sidebar {
+  height: 100vh;
+  position: fixed; /* fixe la sidebar */
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  background: #fff;
+  z-index: 1030; /* plus haut que navbar si nécessaire */
+  border-right: 1px solid #ddd;
+}
+
+main.flex-grow-1 {
+  margin-left: 250px; /* espace pour sidebar */
+  min-height: 100vh;
+  overflow-x: hidden;
+}

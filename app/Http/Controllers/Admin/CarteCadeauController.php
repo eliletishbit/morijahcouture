@@ -3,63 +3,64 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CarteCadeau;
 use Illuminate\Http\Request;
 
 class CarteCadeauController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $cartes = CarteCadeau::paginate(15);
+        return view('pages.backend.cartecadeau.index', compact('cartes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('pages.backend.cartecadeau.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'code' => 'required|string|max:100|unique:carte_cadeaus,code',
+            'valeur' => 'required|numeric|min:0',
+            'date_expiration' => 'nullable|date',
+            'statut' => 'required|string|max:50',
+        ]);
+
+        CarteCadeau::create($validated);
+
+        return redirect()->route('admin.carte-cadeaus.index')->with('success', 'Carte cadeau créée avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(CarteCadeau $cartecadeau)
     {
-        //
+        return view('pages.backend.cartecadeau.show', compact('cartecadeau'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(CarteCadeau $cartecadeau)
     {
-        //
+        return view('pages.backend.cartecadeau.edit', compact('cartecadeau'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, CarteCadeau $cartecadeau)
     {
-        //
+        $validated = $request->validate([
+            'code' => 'required|string|max:100|unique:carte_cadeaus,code,' . $cartecadeau->id,
+            'valeur' => 'required|numeric|min:0',
+            'date_expiration' => 'nullable|date',
+            'statut' => 'required|string|max:50',
+        ]);
+
+        $cartecadeau->update($validated);
+
+        return redirect()->route('admin.carte-cadeaus.index')->with('success', 'Carte cadeau mise à jour avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(CarteCadeau $cartecadeau)
     {
-        //
+        $cartecadeau->delete();
+
+        return redirect()->route('admin.carte-cadeaus.index')->with('success', 'Carte cadeau supprimée.');
     }
 }

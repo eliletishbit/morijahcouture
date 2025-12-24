@@ -3,63 +3,73 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\PointInteractif;
+use App\Models\ImageLookbook;
+use App\Models\Produit;
 use Illuminate\Http\Request;
 
 class PointInteractifController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $points = PointInteractif::with(['imageLookbook', 'produit'])->paginate(15);
+        return view('pages.backend.pointinteractif.index', compact('points'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $images = ImageLookbook::all();
+        $produits = Produit::all();
+        return view('pages.backend.pointinteractif.create', compact('images', 'produits'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'image_lookbook_id' => 'required|exists:image_lookbooks,id',
+            'produit_id' => 'nullable|exists:produits,id',
+            'position_x' => 'required|numeric|between:0,1',
+            'position_y' => 'required|numeric|between:0,1',
+            'description_popup' => 'nullable|string',
+        ]);
+
+        PointInteractif::create($validated);
+
+        return redirect()->route('admin.point-interactifs.index')->with('success', 'Point interactif créé.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(PointInteractif $pointInteractif)
     {
-        //
+        $pointInteractif->load(['imageLookbook', 'produit']);
+        return view('pages.backend.pointinteractif.show', compact('pointInteractif'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(PointInteractif $pointInteractif)
     {
-        //
+        $images = ImageLookbook::all();
+        $produits = Produit::all();
+        return view('pages.backend.pointinteractif.edit', compact('pointInteractif', 'images', 'produits'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, PointInteractif $pointInteractif)
     {
-        //
+        $validated = $request->validate([
+            'image_lookbook_id' => 'required|exists:image_lookbooks,id',
+            'produit_id' => 'nullable|exists:produits,id',
+            'position_x' => 'required|numeric|between:0,1',
+            'position_y' => 'required|numeric|between:0,1',
+            'description_popup' => 'nullable|string',
+        ]);
+
+        $pointInteractif->update($validated);
+
+        return redirect()->route('admin.point-interactifs.index')->with('success', 'Point interactif mis à jour.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(PointInteractif $pointInteractif)
     {
-        //
+        $pointInteractif->delete();
+
+        return redirect()->route('admin.point-interactifs.index')->with('success', 'Point interactif supprimé.');
     }
 }

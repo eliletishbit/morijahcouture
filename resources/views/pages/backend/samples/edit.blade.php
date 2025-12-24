@@ -1,1 +1,0 @@
-//editer un echantillon de catalogue

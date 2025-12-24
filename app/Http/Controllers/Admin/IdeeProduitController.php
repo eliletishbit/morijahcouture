@@ -3,63 +3,69 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\IdeeProduit;
 use Illuminate\Http\Request;
 
 class IdeeProduitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $idee_produits = IdeeProduit::paginate(15);
+        return view('pages.backend.ideeproduit.index', ['idee_produits' => $idee_produits]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        //
+        return view('pages.backend.ideeproduit.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+        ]);
+
+        IdeeProduit::create($validated);
+
+        return redirect()->route('admin.idee-produits.index')->with('success', 'Idée produit créée.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // public function show(IdeeProduit $idee_produit)
+    // {
+    //     return view('pages.backend.ideeproduit.show', compact('idee_produit'));
+    // }
+
+    // public function edit(IdeeProduit $idee_produit)
+    // {
+    //     return view('pages.backend.ideeproduit.edit', compact('idee_produit'));
+    // }
+
+    public function show(IdeeProduit $idee_produit)
     {
-        //
+        return view('pages.backend.ideeproduit.show', compact('idee_produit'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(IdeeProduit $idee_produit)
     {
-        //
+        return view('pages.backend.ideeproduit.edit', compact('idee_produit'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, IdeeProduit $idee_produit)
     {
-        //
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+        ]);
+
+        $idee_produit->update($validated);
+
+        return redirect()->route('admin.idee-produits.index')->with('success', 'Idée produit mise à jour.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(IdeeProduit $idee_produit)
     {
-        //
+        $idee_produit->delete();
+
+        return redirect()->route('admin.idee-produits.index')->with('success', 'Idée produit supprimée.');
     }
 }

@@ -78,17 +78,18 @@
     </div>
     <div class="h-100" data-simplebar="">
         <ul class="navbar-nav navbar-nav-offcanvac" style="font-size:3.7rem;">          
-             <li class="nav-item w-100 w-lg-auto">
-            <a class="nav-link" href="dashboard/index.html" >Lookbooks</a>
-            </li>
+             {{-- <li class="nav-item w-100 w-lg-auto">
+            <a class="nav-link" href="{{route('user.lookbooks.index')}}" >Lookbooks</a>
+            </li> --}}
+             
+                <li class="nav-item w-100 w-lg-auto">
+                    <a class="nav-link" href="{{ route('collections.show', ['id' => 1]) }}">
+                        vetements sur mesure
+                    </a>
+                </li>
+         
             <li class="nav-item w-100 w-lg-auto">
-                <a class="nav-link" href="dashboard/index.html">Vêtements sur mesure</a>
-            </li>
-            <li class="nav-item w-100 w-lg-auto">
-                <a class="nav-link" href="dashboard/index.html">Chaussures sur mesure</a>
-            </li>
-            <li class="nav-item w-100 w-lg-auto">
-                <a class="nav-link" href="dashboard/index.html">Femmes</a>
+                <a class="nav-link" href="https://www.sumissura.com/fr/?utm_source=hockerty">Femmes</a>
             </li>          
                <li class="nav-item w-100 w-lg-auto">
                 <a class="nav-link" href="dashboard/index.html">A propos</a>

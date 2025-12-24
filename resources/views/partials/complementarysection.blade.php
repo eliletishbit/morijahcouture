@@ -39,9 +39,37 @@
                 <x-ideetenue :tenueproduits="$tenueproduits" />
         </div>
        
-        <div class="ecologie">
+     
+        <div class="container py-5 ecologie">
+                {{-- Première rangée --}}
+                <div class="row align-items-center mb-5">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                    <img src="{{ asset('assets/images/home/ecologi1.jpg') }}" alt="Tenue Image" class="img-fluid rounded shadow">
+                    </div>
+                    <div class="col-md-6">
+                    <h2>Notre planète vous en sera reconnaissante</h2>
+                    <p>Sentez-vous bien dans vos vêtements tout en restant conscient de votre empreinte écologique. Avec une pièce unique, plus de gaspillage.</p>
+                    <a href="#!" class="btn btn-primary">Decouvrez notre processus</a>
+                    </div>
+                </div>
 
+                {{-- Deuxième rangée --}}
+                <div class="row align-items-center">
+                    {{-- Col texte à gauche (ordre 1 desktop) --}}
+                    <div class="col-md-6 order-md-1 order-2 mb-3 mb-md-0">
+                    <h2>Des tenues qui durent</h2>
+                    <p>Nous reconnaissons l'importance des détails, et cela se reflète dans nos tissus durables et notre processus méticuleux de contrôle 
+                        qualité. Commandez dès maintenant des échantillons gratuits parmi notre vaste choix de plus de 150 tissus, et soyez assuré de porter un vêtement intemporel.</p>
+                    <a href="#!" class="btn btn-primary">Commandez des echantillions</a>
+                    </div>
+                    {{-- Col image à droite (ordre 2 desktop) --}}
+                    <div class="col-md-6 order-md-2 order-1">
+                    <img src="{{ asset('assets/images/home/ecologi1.jpg') }}" alt="Tenue Image" class="img-fluid rounded shadow">
+                    </div>
+                </div>
         </div>
+
+        
         <div class="coupeparfaite">
 
         </div>

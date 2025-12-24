@@ -18,4 +18,7 @@ class ImageLookbook extends Model
     {
         return $this->hasMany(PointInteractif::class);
     }
+
+  
+
 }

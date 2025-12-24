@@ -171,7 +171,8 @@
                                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                               </svg>
                               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                                 5
+                                 5  
+                                 {{-- {{$unreadmessages}} --}}
                                  <span class="visually-hidden">messages non lus</span>
                               </span>
                            </a>
@@ -196,26 +197,27 @@
                         </div>
                         <div class="list-inline-item me-5 me-lg-0">
                            <a class="text-muted position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" href="#offcanvasExample" role="button" aria-controls="offcanvasRight">
-                              <svg
-                                 xmlns="http://www.w3.org/2000/svg"
-                                 width="20"
-                                 height="20"
-                                 viewBox="0 0 24 24"
-                                 fill="none"
-                                 stroke="currentColor"
-                                 stroke-width="2"
-                                 stroke-linecap="round"
-                                 stroke-linejoin="round"
-                                 class="feather feather-shopping-bag">
-                                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                                 <line x1="3" y1="6" x2="21" y2="6"></line>
-                                 <path d="M16 10a4 4 0 0 1-8 0"></path>
-                              </svg>
-                              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                                 1
-                                 <span class="visually-hidden">messages lus</span>
-                              </span>
-                           </a>
+                           <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="feather feather-shopping-bag">
+                              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                              <line x1="3" y1="6" x2="21" y2="6"></line>
+                              <path d="M16 10a4 4 0 0 1-8 0"></path>
+                           </svg>
+                           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                              {{ session('cart') ? count(session('cart')) : 0 }}
+                              <span class="visually-hidden">produits dans le panier</span>
+                           </span>
+                        </a>
+
                         </div>  
                                          
                         <div class="list-inline-item d-inline-block d-lg-none">
@@ -360,7 +362,7 @@
                      <div>
                         <ul class="navbar-nav align-items-center" style="font-size:3.7rem;">
                            <li class="nav-item dropdown w-100 w-lg-auto">
-                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Accueil  </a>
+                              <a class="nav-link dropdown-toggle" href="{{route('welcome.index')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">Accueil  </a>
                               {{-- menu accueil dropdown --}}
                               <ul class="dropdown-menu">
                                  <li><a class="dropdown-item" href="index.html">A propos</a></li>
@@ -509,17 +511,18 @@
                                  </a>
                               </div>
                            </li> --}}
-                           <li class="nav-item w-100 w-lg-auto">
-                              <a class="nav-link" href="dashboard/index.html">Lookbooks</a>
-                           </li>
+                          
+                          
+                              <li class="nav-item w-100 w-lg-auto">
+                                 <a class="nav-link" href="{{ route('collections.show', ['id' => 1]) }}">
+                                    Vetements sur mesure
+                                 </a>
+                              </li>
+                       
+
+                             
                              <li class="nav-item w-100 w-lg-auto">
-                              <a class="nav-link" href="dashboard/index.html">Vêtements sur mesure</a>
-                           </li>
-                             <li class="nav-item w-100 w-lg-auto">
-                              <a class="nav-link" href="dashboard/index.html">Chaussures sur mesure</a>
-                           </li>
-                             <li class="nav-item w-100 w-lg-auto">
-                              <a class="nav-link" href="dashboard/index.html">Femmes</a>
+                              <a class="nav-link" href="https://www.sumissura.com/fr/?utm_source=hockerty">Femmes</a>
                            </li>
                         </ul>
                      </div>

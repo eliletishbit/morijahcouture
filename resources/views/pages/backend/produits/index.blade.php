@@ -13,6 +13,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Image</th>
                 <th>Nom</th>
                 <th>Collection</th>
@@ -25,6 +26,7 @@
         <tbody>
             @foreach($products as $product)
             <tr>
+                <td>{{ $product->id }}</td>
                 <td>
                     @if($product->image_produit)
                     
@@ -32,7 +34,7 @@
                     @else
                         Aucune image
                     @endif
-                </td>
+                </td>                
                 <td>{{ $product->nom }}</td>
                 <td>{{ $product->collection->nom ?? 'Non définie' }}</td>
                 <td>{{ $product->sousCategorie->nom ?? 'Non définie' }}</td>

@@ -11,11 +11,11 @@ class Collection extends Model
 
     public function sousCategorie()
     {
-        return $this->belongsTo(SousCategorie::class);
+        return $this->belongsTo(SousCategorie::class, 'sous_categorie_id');
     }
 
     public function produits()
     {
-        return $this->hasMany(Produit::class);
+        return $this->hasMany(Produit::class, 'collection_id');
     }
 }

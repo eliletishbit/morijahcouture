@@ -52,12 +52,17 @@
     @stack('styles')  {{-- C’est ici que les styles poussé via @push('styles') seront injectés --}}
 </head>
 <body>
-    <div id="app" class="container-fluid" style="border:2px solid red;padding:10px 10px;">
+    <div id="app" class="px-0 py-0"  style="border:1px solid rgb(184, 176, 176);">
 
         @include('partials.header-admin')
         @include('partials.sidebar-admin')
 
-        <main class="py-4 px-4" style="width:70%;margin:0 auto;margin-top:60px;">
+        {{-- <main class="py-4 px-4" style="width:70%;margin:0 auto;margin-top:60px;">
+            @yield('content')
+        </main> --}}
+
+        
+        <main class="container-fluid " style="width:70%;margin:0 auto;margin-top:60px;" >
             @yield('content')
         </main>
 
@@ -66,15 +71,16 @@
     </div>
 
 
-   
+   <script src="{{ asset('assets/js/product-form.js') }}"></script>
        <!-- Scripts JS du template -->
     <script src="{{ asset('assets/libs/slick-carousel/slick/slick.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendors/validation.js') }}"></script>
     <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
+<script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
 
       <!-- Theme JS -->
       <script src="assets/js/theme.min.js"></script>
+      
 
       <script src="{{ asset('assets/js/vendors/jquery.min.js')}}"></script>
       <script src="{{ asset('assets/js/vendors/countdown.js')}}"></script>
@@ -83,6 +89,8 @@
       <script src="{{ asset('assets/libs/tiny-slider/dist/min/tiny-slider.js')}}"></script>
       <script src="{{ asset('assets/js/vendors/tns-slider.js')}}"></script>
       <script src="{{ asset('assets/js/vendors/zoom.js')}}"></script>
+
+  
 
 </body>
 </html>

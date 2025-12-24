@@ -52,6 +52,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'profile_picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:5048'],
         ]);
     }
 
@@ -61,12 +62,20 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
-    {
+        protected function create(array $data)
+        {
+            $profilePicturePath = null;
+
+        // Si 'profile_picture' est présent (ici $data est un array, il faudra récupérer le fichier depuis la requête)
+        if (request()->hasFile('profile_picture')) {
+            $profilePicturePath = request()->file('profile_picture')->store('profile_pictures', 'public');
+        }
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'profile_picture' => $profilePicturePath,
         ]);
     }
 }

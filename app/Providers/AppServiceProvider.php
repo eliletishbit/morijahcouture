@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Providers;
+use App\Models\Categorie;
+use App\Models\Collection;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\View;
-use App\Models\Categorie;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -29,8 +30,20 @@ class AppServiceProvider extends ServiceProvider
         URL::forceScheme('https');
         }
 
-        View::composer('partials.header-frontend', function ($view) {
+        // View::composer('partials.header-frontend', function ($view) {
+        // $view->with('categories', Categorie::all());
+        // });
+        View::composer('*', function ($view) {
         $view->with('categories', Categorie::all());
         });
+
+        View::composer(['partials.header-frontend', 'partials.sidebar-frontend'], function ($view) {
+        $collections = Collection::all();
+        $view->with('collections', $collections);
+    });
+
+   
+
+    
     }
 }

@@ -23,7 +23,23 @@
         @endif
     </p>
 
-    <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-warning">Modifier</a>
-    <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">Retour à la liste</a>
+    @if ($product->pieces && $product->pieces->count() > 0)
+    <h3>Pièces composant cette tenue :</h3>
+    <div class="d-flex flex-wrap gap-3">
+        @foreach ($product->pieces as $piece)
+        <div class="card" style="width: 150px;">
+            @if($piece->image_produit)
+            <img src="{{ asset('storage/' . $piece->image_produit) }}" class="card-img-top" alt="{{ $piece->nom }}">
+            @endif
+            <div class="card-body">
+                <p class="card-text">{{ $piece->nom }}</p>
+            </div>
+        </div>
+        @endforeach
+    </div>
+    @endif
+
+    <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-warning mt-3">Modifier</a>
+    <a href="{{ route('admin.products.index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
 </div>
 @endsection

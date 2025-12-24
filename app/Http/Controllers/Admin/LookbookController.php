@@ -3,63 +3,64 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lookbook;
 use Illuminate\Http\Request;
 
 class LookbookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $lookbooks = Lookbook::paginate(15);
+        return view('pages.backend.lookbook.index', compact('lookbooks'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('pages.backend.lookbook.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'titre' => 'required|string|max:255',
+            'sous_titre' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'statut' => 'required|string|max:50',
+        ]);
+
+        Lookbook::create($validated);
+
+        return redirect()->route('admin.lookbooks.index')->with('success', 'Lookbook créé avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Lookbook $lookbook)
     {
-        //
+        return view('pages.backend.lookbook.show', compact('lookbook'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Lookbook $lookbook)
     {
-        //
+        return view('pages.backend.lookbook.edit', compact('lookbook'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Lookbook $lookbook)
     {
-        //
+        $validated = $request->validate([
+            'titre' => 'required|string|max:255',
+            'sous_titre' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'statut' => 'required|string|max:50',
+        ]);
+
+        $lookbook->update($validated);
+
+        return redirect()->route('admin.lookbooks.index')->with('success', 'Lookbook mis à jour avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Lookbook $lookbook)
     {
-        //
+        $lookbook->delete();
+
+        return redirect()->route('admin.lookbooks.index')->with('success', 'Lookbook supprimé avec succès.');
     }
 }

@@ -1,1 +1,1 @@
-//liste des articles
+//liste des produits

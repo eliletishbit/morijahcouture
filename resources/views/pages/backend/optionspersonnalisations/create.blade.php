@@ -1,12 +1,37 @@
-{{-- ajouter option personnalisation --}}
 @extends('layouts.backendapp')
 
 @section('content')
 <div class="container">
     <h1>Ajouter une nouvelle Option de Personnalisation</h1>
 
+    {{-- Affichage des erreurs --}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('admin.option-personnalisations.store') }}" method="POST">
         @csrf
+
+        <div class="form-group mb-3">
+            <label for="categorie_option_personnalisation_id" class="form-label">Catégorie de personnalisation</label>
+            <select name="categorie_option_personnalisation_id" id="categorie_option_personnalisation_id" class="form-control @error('categorie_option_personnalisation_id') is-invalid @enderror" required>
+                <option value="">-- Sélectionner une catégorie --</option>
+                @foreach ($categories as $categorie)
+                    <option value="{{ $categorie->id }}" {{ old('categorie_option_personnalisation_id') == $categorie->id ? 'selected' : '' }}>
+                        {{ $categorie->nom_categorie }}
+                    </option>
+                @endforeach
+            </select>
+            @error('categorie_option_personnalisation_id')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
 
         <div class="form-group mb-3">
             <label for="nom_option" class="form-label">Nom de l'option</label>

@@ -20,6 +20,13 @@
     <link href="{{ asset('assets/libs/slick-carousel/slick/slick-theme.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/libs/tiny-slider/dist/tiny-slider.css') }}" rel="stylesheet" />
    
+    <!--styles pour le panier-->
+    <link rel="stylesheet" href="{{ asset('assets/libs/bootstrap-icons/font/bootstrap-icons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/libs/feather-webfont/dist/feather-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/libs/simplebar/dist/simplebar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
+    
+
 
     <!-- Scripts async dans head (Google, Clarity, etc.) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
@@ -29,25 +36,58 @@
         gtag("js", new Date());
         gtag("config", "G-M8S4MT3EYG");
     </script>
+     <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag() {
+            dataLayer.push(arguments);
+         }
+         gtag("js", new Date());
+
+         gtag("config", "G-M8S4MT3EYG");
+      </script>
+      <script type="text/javascript">
+         (function (c, l, a, r, i, t, y) {
+            c[a] =
+               c[a] ||
+               function () {
+                  (c[a].q = c[a].q || []).push(arguments);
+               };
+            t = l.createElement(r);
+            t.async = 1;
+            t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0];
+            y.parentNode.insertBefore(t, y);
+         })(window, document, "clarity", "script", "kuc8w5o9nt");
+      </script>
     {{-- scripts et styles via push --}}
 
     @stack('styles')  {{-- C’est ici que les styles poussé via @push('styles') seront injectés --}}
+    {{-- @livewireStyles --}}
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="px-0">
 
 
         @include('partials.header-frontend')
         @include('partials.sidebar-frontend')
 
-        <main class="container-fluid " >
-            @yield('content')
-        </main>
+      <main class="p-0 m-0" style="width: 100%; max-width: 100%;">
+  @yield('content')
+</main>
+
 
         @include('partials.footer-frontend')
 
-
+           
+        {{-- @livewireScripts --}}
     </div>
+
+
+    <!-- Bouton retour en haut --> 
+<a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="btn btn-secondary position-fixed bottom-3 start-50 translate-middle-x" style="z-index: 9999;">
+    Retour en haut
+</a>
+
 
   <!-- Scripts JS du template -->
     <script src="{{ asset('assets/libs/slick-carousel/slick/slick.min.js') }}"></script>

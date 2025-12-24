@@ -1,9 +1,10 @@
-<section class="container-fluid p-0" style="height: 100vh;">
-  <div id="heroCarousel" class="carousel slide h-100" data-bs-ride="carousel" data-bs-interval="5000">
-    <div class="carousel-inner rounded h-100" style="border-radius: 0.5rem; overflow: hidden;">
+<section class="m-0 p-0" style="width: 100vw; height: 100vh; overflow: hidden;">
+
+  <div id="heroCarousel" class="carousel slide h-100" data-bs-ride="carousel" data-bs-interval="5000" >
+    <div class="carousel-inner rounded h-100 " style="border-radius: 0.5rem; overflow: hidden; ">
       
       <!-- Slide 1 -->
-      <div class="carousel-item active h-100" style="background: url('/assets/images/slider/slide-1.jpg') no-repeat center center; background-size: cover;">
+      <div class="carousel-item active h-100 vw-100" style="background: url('/assets/images/slider/slide-1.jpg') no-repeat center center; background-size: cover;">
         <div class="carousel-caption d-md-block text-start px-4 px-md-0" style="top: 50%; transform: translateY(-50%); left: 10;">
           {{-- <span class="badge bg-warning text-dark fs-6" >Opening Sale Discount 50%</span> --}}
           <h2 class="display-5 fw-bold text-dark mt-3" style="color:antiquewhite !important;">Revêtez l'authenticité de votre être</h2>

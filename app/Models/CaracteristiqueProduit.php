@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Categorie;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CaracteristiqueProduit extends Model
 {

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid p-0 py-4 px-4">
     @include('partials.heroslider')
-    @include('partials.featured-categories')
+    @include('partials.featured-categories', ['sousCategories' => $sousCategories])
     @include('partials.complementarysection')
     {{-- @include('partials.popularproducts')
     @include('partials.dailybestsells')

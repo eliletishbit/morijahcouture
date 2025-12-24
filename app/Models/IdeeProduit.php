@@ -9,10 +9,11 @@ class IdeeProduit extends Model
     //
     protected $fillable = ['nom'];
 
-    public function produits()
-    {
-        return $this->belongsToMany(Produit::class, 'categorie_idee_produit');
-    }
+public function categorieIdeeProduits()
+{
+    return $this->belongsToMany(CategorieIdeeProduit::class, 'categorie_idee_produit_idee_produit', 'idee_produit_id', 'categorie_idee_produit_id');
+}
+
 
    
 }

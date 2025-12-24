@@ -16,11 +16,13 @@ class SousCategorie extends Model
 
     public function collections()
     {
-        return $this->hasMany(Collection::class);
+        return $this->hasMany(Collection::class, 'sous_categorie_id');
     }
     
        public function produits(): HasMany
     {
         return $this->hasMany(Produit::class);
     }
+
+ 
 }

@@ -2,64 +2,60 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
+use App\Models\CategorieIdeeProduit;
 
 class CategorieIdeeProduitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $categorie_idee_produits = CategorieIdeeProduit::paginate(15);
+        return view('pages.backend.categorieideeproduit.index', compact('categorie_idee_produits'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('pages.backend.categorieideeproduit.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+        ]);
+
+        CategorieIdeeProduit::create($validated);
+
+        return redirect()->route('admin.categorie-idee-produits.index')->with('success', 'Catégorie créée.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(CategorieIdeeProduit $categorie_idee_produit)
     {
-        //
+        return view('pages.backend.categorieideeproduit.show', compact('categorie_idee_produit'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(CategorieIdeeProduit $categorie_idee_produit)
     {
-        //
+        return view('pages.backend.categorieideeproduit.edit', compact('categorie_idee_produit'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, CategorieIdeeProduit $categorie_idee_produit)
     {
-        //
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+        ]);
+
+        $categorie_idee_produit->update($validated);
+
+        return redirect()->route('admin.categorie-idee-produits.index')->with('success', 'Catégorie mise à jour.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(CategorieIdeeProduit $categorie_idee_produit)
     {
-        //
+        $categorie_idee_produit->delete();
+
+        return redirect()->route('admin.categorie-idee-produits.index')->with('success', 'Catégorie supprimée.');
     }
 }

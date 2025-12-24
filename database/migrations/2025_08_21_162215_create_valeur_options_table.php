@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('valeur_options', function (Blueprint $table) {
             $table->id();
             $table->foreignId('option_personnalisation_id')->constrained('option_personnalisations')->onDelete('cascade');
+            $table->foreignId('sous_option_personnalisation_id')->nullable()->constrained('sous_option_personnalisations')->onDelete('cascade');
             $table->string('valeur');
-            $table->string('image')->nullable();
+            $table->string('image')->nullable(); // image spécifique à la valeur
+            $table->decimal('prix', 10, 2)->default(0);
             $table->timestamps();
         });
     }
