@@ -1,36 +1,32 @@
-FROM richarvey/nginx-php-fpm:latest
+FROM php:8.2-apache
 
+# Install extensions
+RUN apt-get update && apt-get install -y \
+    libzip-dev zip unzip libpng-dev libjpeg-dev libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd pdo_mysql pdo_pgsql zip \
+    && a2enmod rewrite
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+# Copy app
 COPY . .
 
-# Image config
-ENV SKIP_COMPOSER 1
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
-
-# Laravel config
-ENV APP_ENV production
-ENV APP_DEBUG false
-ENV LOG_CHANNEL stderr
-
-# Allow composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
-# Install Composer dependencies
+# Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Generate key and cache
-RUN php artisan key:generate --force
-RUN php artisan storage:link
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
+# Cache configuration (sans key:generate)
+RUN php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
 
-# Set permissions
-RUN chown -R nginx:nginx /var/www/html/storage
-RUN chmod -R 755 /var/www/html/storage
+# Permissions
+RUN chown -R www-data:www-data /var/www/html/storage \
+    && chmod -R 755 /var/www/html/storage
 
-EXPOSE 80
+EXPOSE 10000
 
-CMD ["/start.sh"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
