@@ -14,8 +14,23 @@ ENV APP_ENV production
 ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
 
-
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER 1
+
+# Install Composer dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+# Generate key and cache
+RUN php artisan key:generate --force
+RUN php artisan storage:link
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
+
+# Set permissions
+RUN chown -R nginx:nginx /var/www/html/storage
+RUN chmod -R 755 /var/www/html/storage
+
+EXPOSE 80
 
 CMD ["/start.sh"]
