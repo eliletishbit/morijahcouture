@@ -38,3 +38,8 @@ EXPOSE 80
 
 # Lancement du serveur Apache
 CMD apache2-foreground
+
+# Installation de Node.js pour compiler les assets
+RUN apt-get update && apt-get install -y nodejs npm
+RUN npm install
+RUN npm run build
