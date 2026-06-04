@@ -1,30 +1,37 @@
-FROM php:8.2-fpm
+# 1. Image de base avec PHP et Apache
+FROM php:8.2-apache
 
-# Installation des dépendances système
+# 2. Installation des dépendances système (NodeJS inclus)
 RUN apt-get update && apt-get install -y \
     libpng-dev libzip-dev zip unzip git \
     nodejs npm
 
-# Extension PDO
+# 3. Extensions PHP
 RUN docker-php-ext-install pdo_mysql zip
 
-# Composer
+# 4. Activer le rewrite module (indispensable pour Laravel)
+RUN a2enmod rewrite
+
+# 5. Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# 6. Configurer le répertoire public
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /var/www/html
 
-# Dépendances PHP
+# 7. Installation dépendances PHP
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# Dépendances JS et Build Vite
+# 8. Installation dépendances JS et Build
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
 RUN npm run build
 
-# Permissions
+# 9. Permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-EXPOSE 8000
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+# 10. Apache écoute sur le port 80
+EXPOSE 80
