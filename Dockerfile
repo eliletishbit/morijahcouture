@@ -1,32 +1,40 @@
+# Utilise l'image officielle PHP 8.2 avec Apache
 FROM php:8.2-apache
 
-# Install extensions
+# Installation des extensions système nécessaires
 RUN apt-get update && apt-get install -y \
     libzip-dev zip unzip libpng-dev libjpeg-dev libfreetype6-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd pdo_mysql pdo_pgsql zip \
     && a2enmod rewrite
 
-# Install Composer
+# Installation de Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Définition du répertoire de travail
 WORKDIR /var/www/html
 
-# Copy app
+# Copie des fichiers du projet
 COPY . .
 
-# Install dependencies
+# Installation des dépendances du projet
 RUN composer install --no-dev --optimize-autoloader
 
-# Cache configuration (sans key:generate)
+# Mise en cache de la configuration Laravel
 RUN php artisan config:cache \
     && php artisan route:cache \
     && php artisan view:cache
 
-# Permissions
+# Attribution des permissions correctes pour Laravel
 RUN chown -R www-data:www-data /var/www/html/storage \
-    && chmod -R 755 /var/www/html/storage
+    && chmod -R 775 /var/www/html/storage
 
-EXPOSE 10000
+# Configuration d'Apache pour utiliser la variable PORT de Render
+# On remplace le port 80 par la variable ${PORT} dans les fichiers Apache
+RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
 
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
+# Exposition du port
+EXPOSE 80
+
+# Lancement du serveur Apache
+CMD apache2-foreground
