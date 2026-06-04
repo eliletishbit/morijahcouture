@@ -20,6 +20,8 @@
                     <th>Option de personnalisation</th>
                     <th>Valeur</th>
                     <th>Image</th>
+                    <th>Prix</th>
+                     <th>Image calque</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -32,6 +34,14 @@
                         <td>
                             @if($vo->image)
                                 <img src="{{ asset('storage/' . $vo->image) }}" alt="Image" width="60" />
+                            @else
+                                -
+                            @endif
+                        </td>
+                        <td>{{ $vo->prix }} € </td>
+                        <td>
+                            @if($vo->image_calque)
+                                <img src="{{ asset('storage/' . $vo->image_calque) }}" alt="Image" width="60" />
                             @else
                                 -
                             @endif

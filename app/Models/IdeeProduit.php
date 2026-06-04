@@ -9,11 +9,14 @@ class IdeeProduit extends Model
     //
     protected $fillable = ['nom'];
 
-public function categorieIdeeProduits()
-{
-    return $this->belongsToMany(CategorieIdeeProduit::class, 'categorie_idee_produit_idee_produit', 'idee_produit_id', 'categorie_idee_produit_id');
-}
 
+   // Relation avec les produits (many-to-many)
+    public function produits(): BelongsToMany
+    {
+        return $this->belongsToMany(Produit::class, 'produit_idee_produit')
+                    ->withPivot('ordre')
+                    ->withTimestamps();
+    }
 
    
 }

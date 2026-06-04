@@ -10,6 +10,7 @@ class Produit extends Model
     //
   protected $fillable = [
     'image_produit',
+    'image_modele_neutre',
     'nom',
     'description',
     'prix_base',
@@ -83,13 +84,7 @@ class Produit extends Model
                     ->withTimestamps();                   // timestamp sur pivot
     }
 
-     public function optionsValeurs()
-    {
-        return $this->belongsToMany(OptionPersonnalisation::class, 'produit_option_valeur')
-                    ->using(ProduitOptionValeur::class) // Modèle pivot optionnel mais conseillé
-                    ->withPivot('valeur_option_id')      // Colonnes supplémentaires à récupérer dans pivot
-                    ->withTimestamps();                   // timestamp sur pivot
-    }
+    
 
 
 
@@ -109,8 +104,43 @@ class Produit extends Model
 
 
 
+    // Relation avec les idées produits (many-to-many)
+    public function ideesProduits()
+    {
+        return $this->belongsToMany(IdeeProduit::class, 'produit_idee_produit')
+                    ->withPivot('ordre')
+                    ->withTimestamps();
+    }
 
 
+
+
+    /////////////////////// methodes utilitaires
+
+     public function getModeleNeutreUrlAttribute()
+    {
+        return $this->image_modele_neutre 
+            ? asset('storage/' . $this->image_modele_neutre) 
+            : null;
+    }
+    
+    public function getValeursDisponibles()
+    {
+        $valeurs = collect();
+        
+        foreach ($this->optionsPersonnalisation as $option) {
+            $valeurs = $valeurs->merge($option->valeurs);
+        }
+        
+        return $valeurs->unique('id');
+    }
+    
+    public function getValeursByOption($optionId)
+    {
+        $option = $this->optionsPersonnalisation()->where('option_personnalisation_id', $optionId)->first();
+        
+        return $option ? $option->valeurs : collect();
+    }
 
 
 }

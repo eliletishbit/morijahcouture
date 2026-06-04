@@ -82,63 +82,100 @@
             </div>
 
             <!-- COLONNE APERÇU (col-md-6) -->
-           <!-- COLONNE APERÇU (col-md-6) -->
-<div class="col-md-6">
-    <div class="card shadow-sm border-0 rounded-4 h-100">
-        <div class="card-header bg-white border-0 pt-4 pb-2">
-            <h5 class="mb-0 fw-bold">
-                <i class="bi bi-eye me-2"></i>Aperçu personnalisé
-            </h5>
-        </div>
-        <div class="card-body d-flex flex-column">
-            <div class="preview-container text-center mb-3" 
-                 style="background: #f5f5f5; border-radius: 16px; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
-                
-                {{-- Une seule image : l'image actuelle (neutre ou personnalisée) --}}
-                <img src="{{ asset('storage/' . $currentImage) }}"  
-                     id="preview-image"
-                     class="img-fluid rounded-3"
-                     style="max-width: 85%; max-height: 70vh; object-fit: contain;">
-            </div>
-
-            <div class="mt-auto pt-3">
-                <div class="price-summary mb-3 p-3 bg-light rounded-3">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Prix de base :</span>
-                        <span class="fw-bold">{{ number_format($product->prix_base, 0, ',', ' ') }} €</span>
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 rounded-4 h-100">
+                    <div class="card-header bg-white border-0 pt-4 pb-2">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="bi bi-eye me-2"></i>Aperçu personnalisé
+                        </h5>
                     </div>
-
-                    @php
-                        $supplementTotal = 0;
-                        foreach($selectedValues as $optionId => $valueId) {
-                            $valeur = \App\Models\ValeurOption::find($valueId);
-                            if ($valeur && $valeur->prix) {
-                                $supplementTotal += $valeur->prix;
-                            }
-                        }
-                    @endphp
-
-                    @if($supplementTotal > 0)
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Suppléments :</span>
-                            <span class="text-success fw-bold">+ {{ number_format($supplementTotal, 0, ',', ' ') }} €</span>
+                    <div class="card-body d-flex flex-column">
+                        <div class="preview-container text-center position-relative mb-3 " 
+                             style="background: #f5f5f5; border-radius: 16px; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+                            
+                            {{-- Image de BASE (modèle neutre) --}}
+                            <img src="{{ asset('storage/' . ($product->image_modele_neutre ?? $product->image_produit ?? 'default-product.jpg')) }}" 
+                                 id="base-image"
+                                 class="img-fluid rounded-3 position-absolute top-50 start-50 translate-middle"
+                                 style="max-width: 85%; height:800px; max-height: 95vh; object-fit: contain; z-index: 1;">
+                            
+                            {{-- Calque superposé (image de personnalisation) --}}
+                            @if($currentImage && $currentImage != ($product->image_modele_neutre ?? $product->image_produit))
+                                <img src="{{ asset('storage/' . $currentImage) }}"  
+                                     id="overlay-image"
+                                     class="img-fluid rounded-3 position-absolute top-50 start-50 translate-middle"
+                                     style="max-width: 85%; max-height: 600px; object-fit: contain; z-index: 2; pointer-events: none;">
+                            @endif
                         </div>
-                        <hr class="my-2">
-                    @endif
+                        
+                        {{-- <div class="mt-auto pt-3">
+                            <div class="price-summary mb-3 p-3 bg-light rounded-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Prix de base :</span>
+                                    <span class="fw-bold">{{ number_format($product->prix, 0) }} €</span>
+                                </div>
+                                @php
+                                    $supplementTotal = 0;
+                                    foreach($selectedValues as $valueId) {
+                                        $v = \App\Models\ValeurOption::find($valueId);
+                                        if($v) $supplementTotal += $v->prix_supplementaire;
+                                    }
+                                @endphp
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Suppléments :</span>
+                                    <span class="text-success fw-bold">+{{ number_format($supplementTotal, 0) }} €</span>
+                                </div>
+                                <hr class="my-2">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Total :</span>
+                                    <span class="fw-bold fs-5 text-primary">{{ number_format($product->prix + $supplementTotal, 0) }} €</span>
+                                </div>
+                            </div>
+                            
+                            <button wire:click="saveCustomizations" class="btn btn-success w-100 py-3 rounded-3 fw-bold fs-6">
+                                <i class="bi bi-cart-plus me-2"></i>Ajouter au panier
+                            </button>
+                        </div> --}}
 
-                    <div class="d-flex justify-content-between">
-                        <span class="fw-bold">Total :</span>
-                        <span class="fw-bold fs-5 text-primary">{{ number_format($product->prix_base + $supplementTotal, 0, ',', ' ') }} €</span>
+                        <div class="mt-auto pt-3">
+                            <div class="price-summary mb-3 p-3 bg-light rounded-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Prix de base :</span>
+                                    <span class="fw-bold">{{ number_format($product->prix_base, 0, ',', ' ') }} €</span>
+                                </div>
+
+                                @php
+                                    $supplementTotal = 0;
+                                    foreach($selectedValues as $optionId => $valueId) {
+                                        $valeur = \App\Models\ValeurOption::find($valueId);
+                                        if ($valeur && $valeur->prix) {
+                                            $supplementTotal += $valeur->prix;
+                                        }
+                                    }
+                                @endphp
+
+                                @if($supplementTotal > 0)
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Suppléments :</span>
+                                        <span class="text-success fw-bold">+ {{ number_format($supplementTotal, 0, ',', ' ') }} €</span>
+                                    </div>
+                                    <hr class="my-2">
+                                @endif
+
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Total :</span>
+                                    <span class="fw-bold fs-5 text-primary">{{ number_format($product->prix_base + $supplementTotal, 0, ',', ' ') }} €</span>
+                                </div>
+                            </div>
+
+                            <button type="button" wire:click="saveCustomizations" class="btn btn-dark w-100 py-2 fw-semibold">
+                                <i class="bi bi-check-circle me-2"></i> Personnaliser et continuer
+                            </button>
+                        </div>
+
                     </div>
                 </div>
-
-                <button type="button" wire:click="saveCustomizations" class="btn btn-dark w-100 py-2 fw-semibold">
-                    <i class="bi bi-check-circle me-2"></i> Personnaliser et continuer
-                </button>
             </div>
-        </div>
-    </div>
-</div>
             
         </div>
     </div>

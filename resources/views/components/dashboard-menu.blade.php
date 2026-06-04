@@ -33,12 +33,12 @@
                                     <span class="nav-link-text">Produits</span>
                                 </div>
                             </a>
-                            <a class="nav-link {{ request()->routeIs('admin.caracteristique-produits.*') ? 'active' : '' }}" href="{{ route('admin.caracteristique-produits.index') }}">
+                            {{-- <a class="nav-link {{ request()->routeIs('admin.caracteristique-produits.*') ? 'active' : '' }}" href="{{ route('admin.caracteristique-produits.index') }}">
                                 <div class="d-flex align-items-center" style="font-size: 0.9rem;">
                                     <span class="nav-link-icon me-2"><i class="bi bi-cart"></i></span>
                                     <span class="nav-link-text">Caractéristiques produits</span>
                                 </div>
-                            </a>
+                            </a> --}}
                         </li>
                         <li class="nav-item mb-1">
                             <a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">
@@ -86,14 +86,14 @@
                         </li>
 
                         {{-- Avis clients --}}
-                        <li class="nav-item mb-1">
+                        {{-- <li class="nav-item mb-1">
                             <a class="nav-link {{ request()->routeIs('admin.avis-produits.*') ? 'active' : '' }}" href="{{ route('admin.avis-produits.index') }}">
                                 <div class="d-flex align-items-center" style="font-size: 0.9rem;">
                                     <span class="nav-link-icon me-2"><i class="bi bi-star"></i></span>
                                     <span class="nav-link-text">Avis clients</span>
                                 </div>
                             </a>
-                        </li>
+                        </li> --}}
 
                         {{-- Options de personnalisation --}}
                         <li class="nav-item mb-1">
@@ -123,7 +123,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item mb-1">
+                        {{-- <li class="nav-item mb-1">
                             <a class="nav-link {{ request()->routeIs('admin.lookbooks.*') ? 'active' : '' }}" href="{{ route('admin.lookbooks.index') }}">
                                 <div class="d-flex align-items-center" style="font-size: 0.9rem;">
                                     <span class="nav-link-icon me-2"><i class="bi bi-images"></i></span>
@@ -147,7 +147,7 @@
                                     <span class="nav-link-text">images lookbooks</span>
                                 </div>
                             </a>
-                        </li>
+                        </li> --}}
 
                         <li class="nav-item mb-1">
                             <a class="nav-link {{ request()->routeIs('admin.catalogue-echantillons.*') ? 'active' : '' }}" href="{{ route('admin.catalogue-echantillons.index') }}">
@@ -200,14 +200,14 @@
                             </a>
                         </li>
 
-                        <li class="nav-item mb-1">
+                        {{-- <li class="nav-item mb-1">
                             <a class="nav-link {{ request()->routeIs('admin.categorie-idee-produits.*') ? 'active' : '' }}" href="{{ route('admin.categorie-idee-produits.index') }}">
                                 <div class="d-flex align-items-center" style="font-size: 0.9rem;">
                                     <span class="nav-link-icon me-2"><i class="bi bi-tags"></i></span>
                                     <span class="nav-link-text">Catégorie idées produits</span>
                                 </div>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item mb-1">
                             <a class="nav-link {{ request()->routeIs('admin.notifications.*') ? 'active' : '' }}" href="{{ route('admin.notifications.index') }}">
                                 <div class="d-flex align-items-center" style="font-size: 0.9rem;">

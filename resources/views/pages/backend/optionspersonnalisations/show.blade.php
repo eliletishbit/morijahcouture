@@ -7,6 +7,7 @@
 
     <p><strong>Nom de l'option :</strong> {{ $option->nom_option }}</p>
     <p><strong>Type d'option :</strong> {{ $option->type_option }}</p>
+     <p><strong>produits de l(option) :</strong> {{ $option->produits }}</p>
 
     <a href="{{ route('admin.option-personnalisations.edit', $option->id) }}" class="btn btn-warning">Modifier</a>
     <a href="{{ route('admin.option-personnalisations.index') }}" class="btn btn-secondary">Retour à la liste</a>

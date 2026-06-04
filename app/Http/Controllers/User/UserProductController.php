@@ -30,18 +30,15 @@ class UserProductController extends Controller
    public function show(Produit $product)
     {
         $userId = Auth::id();
-
-        // Sécurité : vérifie que le produit appartient bien à l'utilisateur connecté
-        if ($product->user_id != $userId) {
-            abort(403, 'Accès non autorisé');
-        }
+        
         // Chargez ici si besoin des relations comme collection, materiau, etc.
-        $product->load('collection', 'sousCategorie', 'materiau', 'pieces', 'optionsValeurs', 'imagesPersonnalisees' );
+        $product->load('collection', 'sousCategorie', 'materiau', 'pieces', 'optionsPersonnalisation', 'imagesPersonnalisees' );
 
         $relatedProducts = Produit::where('sous_categorie_id', $product->sous_categorie_id)
                     ->where('id', '!=', $product->id)
                     ->limit(5)
                     ->get();
+
 
 
         return view('pages.frontend.produits.show', compact('product', 'relatedProducts'));

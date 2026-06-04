@@ -3,7 +3,7 @@
 
            
             
-            <main class="main-content-wrapper container " style="width:72%;"   >
+            <main class="main-content-wrapper container " style="width:100%;"   >
                <section class="container">
                   <!-- row -->
                   <div class="row mb-8">

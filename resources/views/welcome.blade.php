@@ -5,9 +5,11 @@
     @include('partials.heroslider')
     @include('partials.featured-categories', ['sousCategories' => $sousCategories])
     @include('partials.complementarysection')
+    
     {{-- @include('partials.popularproducts')
     @include('partials.dailybestsells')
     @include('partials.whyus')
     @include('partials.productsquickview') --}}
+    
 </div>
 @endsection

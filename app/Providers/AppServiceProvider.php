@@ -43,7 +43,30 @@ class AppServiceProvider extends ServiceProvider
     });
 
    
+    // View Composer pour la section des tenues (idées produits)
+    // View::composer('partials.complementarysection', function ($view) {
+    //     $sousCategorieIdeeProduit = \App\Models\SousCategorie::where('nom', 'ideeproduit')->first();
+        
+    //     $tenueproduits = [];
+    //     if ($sousCategorieIdeeProduit) {
+    //         $tenueproduits = \App\Models\Produit::where('sous_categorie_id', $sousCategorieIdeeProduit->id)
+    //             ->limit(10)
+    //             ->get();
+    //     }
+        
+    //     $view->with('tenueproduits', $tenueproduits);
+    // });
 
+            View::composer('partials.complementarysection', function ($view) {
+            $sousCategorie = \App\Models\SousCategorie::where('nom', 'ideeproduit')->first();
+            
+            // get() retourne TOUJOURS une collection (même vide)
+            $tenueproduits = $sousCategorie 
+                ?\App\Models\Produit::where('sous_categorie_id', $sousCategorie->id)->limit(10)->get()
+                : collect(); // ← collection vide
+            
+            $view->with('tenueproduits', $tenueproduits);
+        });
     
     }
 }

@@ -162,7 +162,7 @@
 </div>
 
 <!-- Products list -->
-<div class="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3 mt-2">
+{{-- <div class="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3 mt-2">
 @foreach ($collection->produits as $produit)
     <div class="col">
         <div class="card card-product">
@@ -191,13 +191,19 @@
                             </a>
                         @else
 
-                        <a href="{{ route('products.show', ['product' => $produit->id]) }}" class="btn btn-primary btn-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                                <line x1="12" y1="5" x2="12" y2="19"></line>
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                            </svg>
-                            Add
-                        </a>
+                         <form action="{{ route('cart.ajouter', ['produit' => $produit->id]) }}" method="POST" style="display: inline;">
+                            @csrf
+                            <input type="hidden" name="quantite" value="1">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                Add
+                            </button>
+                        </form>
+                      
+
                         @endif
                     </div>
                 </div>
@@ -205,7 +211,176 @@
         </div>
     </div>
 @endforeach
+</div> --}}
+
+<!-- Products list -->
+<div class="row g-4 row-cols-2 row-cols-md-3 row-cols-lg-5 mt-4">
+    @foreach ($collection->produits as $produit)
+        <div class="col">
+            <div class="card card-product h-100 border-0 shadow-sm rounded-4 hover-lift transition-all">
+                <div class="card-body p-3">
+                    <!-- Image produit -->
+                    <div class="text-center position-relative mb-3">
+                        <a href="{{ route('products.show', ['product' => $produit->id]) }}" class="d-block">
+                            <div class="product-image-wrapper rounded-3 overflow-hidden bg-light" style="height: 200px;">
+                                <img src="{{ asset('storage/' . $produit->image_produit) }}" 
+                                     alt="{{ $produit->nom }}" 
+                                     class="img-fluid product-image w-100 h-100"
+                                     style="object-fit: cover; transition: transform 0.3s ease;">
+                            </div>
+                        </a>
+                        
+                        <!-- Badge personnalisable -->
+                        @if($produit->personnalisable)
+                            <span class="position-absolute top-0 end-0 badge bg-warning text-dark rounded-pill mt-2 me-2 px-3 py-1 fs-10">
+                                <i class="bi bi-palette me-1"></i>Sur mesure
+                            </span>
+                        @endif
+                        
+                        <!-- Badge promotion -->
+                        @if(!empty($produit->prix_ancien) && $produit->prix_ancien > $produit->prix_base)
+                            <span class="position-absolute top-0 start-0 badge bg-danger rounded-pill mt-2 ms-2 px-3 py-1 fs-10">
+                                -{{ round((($produit->prix_ancien - $produit->prix_base) / $produit->prix_ancien) * 100) }}%
+                            </span>
+                        @endif
+                    </div>
+                    
+                    <!-- Titre produit -->
+                    <h3 class="fs-6 fw-semibold mb-2 text-truncate">
+                        <a href="{{ route('products.show', ['product' => $produit->id]) }}" 
+                           class="text-dark text-decoration-none hover-primary">
+                            {{ $produit->nom }}
+                        </a>
+                    </h3>
+                    
+                    <!-- Description courte (optionnel) -->
+                    @if($produit->description && strlen($produit->description) > 0)
+                        <p class="small text-muted mb-2 text-truncate">{{ Str::limit($produit->description, 50) }}</p>
+                    @endif
+                    
+                    <!-- Prix et actions -->
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                        <div class="price-wrapper">
+                            <span class="fw-bold text-primary fs-5">
+                                {{ number_format($produit->prix_base ?? 0, 2, ',', ' ') }} €
+                            </span>
+                            @if(!empty($produit->prix_ancien) && $produit->prix_ancien > $produit->prix_base)
+                                <br>
+                                <small class="text-decoration-line-through text-muted">
+                                    {{ number_format($produit->prix_ancien, 2, ',', ' ') }} €
+                                </small>
+                            @endif
+                        </div>
+                        
+                        <div>
+                            @if($produit->personnalisable)
+                                <a href="{{ route('produits.personnalisation', ['product' => $produit->id]) }}" 
+                                   class="btn btn-sm btn-warning rounded-pill px-3">
+                                    <i class="bi bi-palette me-1"></i>
+                                    Personnaliser
+                                </a>
+                            @else
+                                <form action="{{ route('cart.ajouter', ['produit' => $produit->id]) }}" 
+                                      method="POST" 
+                                      class="d-inline">
+                                    @csrf
+                                    <input type="hidden" name="quantite" value="1">
+                                    <button type="submit" class="btn btn-sm btn-primary rounded-pill px-3">
+                                        <i class="bi bi-cart-plus me-1"></i>
+                                        Ajouter
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 </div>
+
+<style>
+    /* Styles personnalisés pour la grille produit */
+    .hover-lift {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-lift:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .product-image-wrapper {
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .product-image {
+        transition: transform 0.3s ease;
+    }
+    
+    .product-image-wrapper:hover .product-image {
+        transform: scale(1.05);
+    }
+    
+    .hover-primary {
+        transition: color 0.2s ease;
+    }
+    
+    .hover-primary:hover {
+        color: #0d6efd !important;
+    }
+    
+    .fs-10 {
+        font-size: 0.7rem;
+    }
+    
+    /* Animation légère au chargement */
+    .card-product {
+        animation: fadeInUp 0.4s ease-out backwards;
+        animation-delay: calc(var(--animation-order, 0) * 0.05s);
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Ajout d'un délai d'apparition progressif */
+    @foreach ($collection->produits as $index => $produit)
+        .card-product:nth-child({{ $loop->iteration }}) {
+            --animation-order: {{ $loop->iteration }};
+        }
+    @endforeach
+</style>
+
+<script>
+    // Animation optionnelle au scroll (facultatif)
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.card-product');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.4s ease-out';
+            observer.observe(card);
+        });
+    });
+</script>
 
 </div>
 </div>

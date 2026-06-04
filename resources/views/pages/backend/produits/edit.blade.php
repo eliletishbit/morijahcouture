@@ -99,42 +99,90 @@
             @endif
         </div>
 
+         {{-- image modele --}}
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="image_modele_neutre" class="form-label">Modèle neutre (base pour personnalisation)</label>
+                <input type="file" class="form-control @error('image_modele_neutre') is-invalid @enderror" 
+                    id="image_modele_neutre" name="image_modele_neutre" accept="image/png,image/jpeg">
+                @error('image_modele_neutre') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                @if(isset($produit) && $produit->image_modele_neutre)
+                    <div class="mt-2">
+                        <img src="{{ asset('storage/' . $produit->image_modele_neutre) }}" alt="Modèle neutre" style="height: 80px;">
+                        <p class="small text-muted mt-1">Format recommandé : PNG avec dimensions exactes</p>
+                    </div>
+                @endif
+            </div>
+        </div>
+
+
+       
+
         <!-- Personnalisation : Catégories d'options et options -->
+        @php
+            // Récupérer les valeurs sélectionnées une fois pour toutes
+            $selectedValues = [];
+            foreach($product->optionsPersonnalisation as $selected) {
+                $selectedValues[$selected->id] = $selected->pivot->valeur_option_id;
+            }
+        @endphp
+
         @if (isset($categoriesOptions) && $categoriesOptions->count())
-            <h3>Options de personnalisation</h3>
+            <h3 class="mt-4">Options de personnalisation</h3>
 
             @foreach ($categoriesOptions as $categorie)
-                <div class="category-block">
-                    <h4>{{ $categorie->nom_categorie }}</h4>
-                    @foreach ($categorie->options as $option)
-                        <div class="option-block mb-3">
-                            <label for="option_{{ $option->id }}">{{ $option->nom_option }}</label>
-                            <select name="options[{{ $option->id }}]" id="option_{{ $option->id }}" class="form-select">
-                                @foreach ($option->valeurs as $valeur)
-                                    <option value="{{ $valeur->id }}"
-                                     @selected(old("options.$option->id", optional($product->optionsValeurs->where('id', $option->id)->first())->pivot->valeur_option_id) == $valeur->id)>
-                                     {{ $valeur->valeur }}</option>
-                                @endforeach
-                            </select>
+                @if($categorie->options && $categorie->options->count())
+                    <div class="category-block mb-4">
+                        <h4 class="bg-light p-2">{{ $categorie->nom_categorie }}</h4>
+                        
+                        @foreach ($categorie->options as $option)
+                            <div class="option-block mb-3 p-3 border rounded">
+                                <label for="option_{{ $option->id }}" class="form-label fw-bold">
+                                    {{ $option->nom_option }}
+                                </label>
+                                
+                                <select name="options[{{ $option->id }}]" id="option_{{ $option->id }}" class="form-select">
+                                    <option value="">-- Choisissez --</option>
+                                    @foreach ($option->valeurs as $valeur)
+                                        <option value="{{ $valeur->id }}"
+                                            {{ (old("options.$option->id", $selectedValues[$option->id] ?? null) == $valeur->id) ? 'selected' : '' }}>
+                                            {{ $valeur->valeur }}
+                                            @if($valeur->prix > 0) (+{{ number_format($valeur->prix, 2) }} €) @endif
+                                        </option>
+                                    @endforeach
+                                </select>
 
-                            @if ($option->sousOptions->count())
-                                @foreach ($option->sousOptions as $sousOption)
-                                    <label for="sousoption_{{ $sousOption->id }}">{{ $sousOption->nom_sous_option }}</label>
-                                    <select name="sousoptions[{{ $sousOption->id }}]" id="sousoption_{{ $sousOption->id }}" class="form-select mb-2">
-                                        @foreach ($sousOption->valeurs as $sousValeur)
-                                            <option value="{{ $sousValeur->id }}"
-                                             @selected(old("sousoptions.$sousOption->id", optional($product->sousOptionsValeurs->where('id', $sousOption->id)->first())->pivot->valeur_option_id) == $sousValeur->id)>
-                                             {{ $sousValeur->valeur }}</option>
-                                        @endforeach
-                                    </select>
-                                @endforeach
-                            @endif
-                        </div>
-                    @endforeach
-                </div>
+                                {{-- Sous-options si besoin --}}
+                                @if($option->sousOptions && $option->sousOptions->count())
+                                    @foreach ($option->sousOptions as $sousOption)
+                                        @php
+                                            $selectedSousValue = $sousOption->pivot->valeur_option_id ?? null;
+                                        @endphp
+                                        <div class="mt-2 ms-3">
+                                            <label for="sousoption_{{ $sousOption->id }}" class="form-label">
+                                                {{ $sousOption->nom_sous_option }}
+                                            </label>
+                                            <select name="sousoptions[{{ $sousOption->id }}]" id="sousoption_{{ $sousOption->id }}" class="form-select">
+                                                <option value="">-- Choisissez --</option>
+                                                @foreach ($sousOption->valeurs as $sousValeur)
+                                                    <option value="{{ $sousValeur->id }}"
+                                                        {{ old("sousoptions.$sousOption->id", $selectedSousValue) == $sousValeur->id ? 'selected' : '' }}>
+                                                        {{ $sousValeur->valeur }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             @endforeach
         @else
-            <p>Aucune option personnalisée disponible.</p>
+            <div class="alert alert-info mt-3">
+                Aucune option de personnalisation disponible. Veuillez d'abord créer des catégories, options et valeurs.
+            </div>
         @endif
 
         <button type="submit" class="btn btn-primary mt-3">Mettre à jour</button>

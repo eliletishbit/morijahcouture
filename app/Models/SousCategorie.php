@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class SousCategorie extends Model
 {
     //
-     protected $fillable = ['nom', 'categorie_id', 'image'];
+     protected $fillable = [
+        'nom', 
+        'categorie_id',
+        'categorie_option_personnalisation_id',
+         'image'
+         ];
 
     public function categorie()
     {
@@ -24,5 +29,12 @@ class SousCategorie extends Model
         return $this->hasMany(Produit::class);
     }
 
- 
+
+        // Relation vers la catégorie d'options de personnalisation
+    public function categorieOptionPersonnalisation()
+    {
+        return $this->belongsTo(CategorieOptionPersonnalisation::class);
+    }
+
+    
 }

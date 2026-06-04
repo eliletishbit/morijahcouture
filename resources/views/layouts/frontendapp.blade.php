@@ -89,25 +89,112 @@
 </a>
 
 
-  <!-- Scripts JS du template -->
-    <script src="{{ asset('assets/libs/slick-carousel/slick/slick.min.js') }}"></script>
-    <script src="{{ asset('assets/js/vendors/validation.js') }}"></script>
-    <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
+  
+<!-- jQuery d'abord (obligatoire pour certains plugins) -->
+<script src="{{ asset('assets/js/vendors/jquery.min.js') }}"></script>
 
-      <!-- Theme JS -->
-      <script src="assets/js/theme.min.js"></script>
+<!-- Bootstrap ensuite -->
+<!-- <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+<!-- Puis les autres scripts -->
+<script src="{{ asset('assets/libs/slick-carousel/slick/slick.min.js') }}"></script>
+<script src="{{ asset('assets/js/vendors/validation.js') }}"></script>
+<script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
+<script src="{{ asset('assets/js/theme.min.js') }}"></script>
+<script src="{{ asset('assets/js/vendors/countdown.js') }}"></script>
+<script src="{{ asset('assets/js/vendors/slick-slider.js') }}"></script>
+<script src="{{ asset('assets/libs/tiny-slider/dist/min/tiny-slider.js') }}"></script>
+<script src="{{ asset('assets/js/vendors/tns-slider.js') }}"></script>
+<script src="{{ asset('assets/js/vendors/zoom.js') }}"></script>
+<script src="{{ asset('assets/js/custom.min.js') }}"></script>
 
-      <script src="{{ asset('assets/js/vendors/jquery.min.js')}}"></script>
-      <script src="{{ asset('assets/js/vendors/countdown.js')}}"></script>
-      <script src="{{ asset('assets/libs/slick-carousel/slick/slick.min.js')}}"></script>
-      <script src="{{ asset('assets/js/vendors/slick-slider.js')}}"></script>
-      <script src="{{ asset('assets/libs/tiny-slider/dist/min/tiny-slider.js')}}"></script>
-      <script src="{{ asset('assets/js/vendors/tns-slider.js')}}"></script>
-      <script src="{{ asset('assets/js/vendors/zoom.js')}}"></script>
-<script src="{{asset('assets/js/custom.min.js')}}"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-   
+
+<script defer>
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialisation du carousel
+    var myCarousel = document.querySelector('#ideetenueCarousel');
+    var carousel = bootstrap.Carousel.getInstance(myCarousel)
+        || new bootstrap.Carousel(myCarousel, {
+            interval: false,
+            ride: false,
+            pause: 'hover',
+            touch: true,
+        });
+    myCarousel.querySelectorAll('.carousel-item').forEach(function(item) {
+        item.style.transitionDuration = '15000ms';
+    });
+
+    // ========== GESTION DU MODAL ==========
+    const productModal = document.getElementById('productModal');
+    
+    if (productModal) {
+        productModal.addEventListener('show.bs.modal', async function (event) {
+            // Récupérer le bouton qui a déclenché le modal
+            const button = event.relatedTarget;
+            
+            // Vérifier que le bouton existe et a l'attribut data-product
+            if (!button || !button.getAttribute('data-product')) {
+                console.error('Bouton ou data-product manquant');
+                return;
+            }
+            
+            // Récupérer les données du produit depuis l'attribut data-product
+            let productData;
+            try {
+                productData = JSON.parse(button.getAttribute('data-product'));
+            } catch (e) {
+                console.error('Erreur de parsing JSON', e);
+                return;
+            }
+            
+            // Remplir les champs du modal
+            const modalImage = document.getElementById('modalProductImage');
+            const modalTitle = document.getElementById('modalProductTitle');
+            const modalDescription = document.getElementById('modalProductDescription');
+            
+            if (modalImage) modalImage.src = '/storage/' + productData.image_produit;
+            if (modalTitle) modalTitle.innerText = productData.nom;
+            if (modalDescription) modalDescription.innerText = productData.description || 'Aucune description disponible.';
+            
+            // Récupérer les pièces de la tenue via l'API
+            const piecesListDiv = document.getElementById('modalPiecesList');
+            if (piecesListDiv) {
+                piecesListDiv.innerHTML = '<div class="text-center w-100">Chargement des pièces...</div>';
+                
+                try {
+                    const response = await fetch(`/api/produit/${productData.id}/pieces`);
+                    const data = await response.json();
+                    
+                    if (data.pieces && data.pieces.length > 0) {
+                        piecesListDiv.innerHTML = '';
+                        data.pieces.forEach(piece => {
+                            const pieceCard = `
+                                <div class="card" style="width: 150px;">
+                                    <img src="/storage/${piece.image_produit}" class="card-img-top" alt="${piece.nom}" style="height: 120px; object-fit: cover;">
+                                    <div class="card-body p-2">
+                                        <h6 class="card-title">${piece.nom}</h6>
+                                        <p class="card-text mb-1">${piece.prix_base} €</p>
+                                        <a href="/produit/${piece.id}" class="btn btn-primary btn-sm w-100">Voir</a>
+                                    </div>
+                                </div>
+                            `;
+                            piecesListDiv.innerHTML += pieceCard;
+                        });
+                    } else {
+                        piecesListDiv.innerHTML = '<p class="text-muted">Aucune pièce disponible pour cette tenue.</p>';
+                    }
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    piecesListDiv.innerHTML = '<p class="text-danger">Erreur lors du chargement des pièces.</p>';
+                }
+            }
+        });
+    } else {
+        console.error('Modal #productModal non trouvé');
+    }
+});
+</script>
+
 </body>
 </html>

@@ -8,17 +8,13 @@ class OptionPersonnalisation extends Model
 {
     //
     protected $fillable = [
-        'produit_id',
+       
         'categorie_option_personnalisation_id',
         'nom_option',
         'type_option'
     ];
 
-    // Option appartenant à un produit (nullable)
-    public function produit()
-    {
-        return $this->belongsTo(Produit::class);
-    }
+    
 
     // L'option appartient à une catégorie d'option
     public function categorie()
@@ -35,7 +31,7 @@ class OptionPersonnalisation extends Model
     // Valeurs directes si option simple (exemple : tissus sans sous-options)
     public function valeurs()
     {
-        return $this->hasMany(ValeurOption::class);
+        return $this->hasMany(ValeurOption::class, 'option_personnalisation_id');
     }
 
     public function produits()

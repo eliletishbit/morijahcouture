@@ -85,6 +85,30 @@
                 <a href="{{ route('checkout') }}" class="btn btn-dark">Passer à la caisse</a>
             </div>
         </div>
+
+        {{-- autre contenu panier --}}
+        <div>
+    <h6 class="mb-1">{{ $item['nom'] }}</h6>
+    
+    {{-- AFFICHAGE DES OPTIONS CHOISIES --}}
+    @if(isset($item['personnalisation']) && count($item['personnalisation']))
+        <small class="text-muted d-block mb-2">
+            <strong>Personnalisation :</strong>
+            @foreach($item['personnalisation'] as $optionId => $valeurId)
+                @php
+                    $valeur = \App\Models\ValeurOption::find($valeurId);
+                    if($valeur) echo $valeur->valeur . ' ';
+                @endphp
+            @endforeach
+        </small>
+    @endif
+    
+    {{-- LIEN VERS L'ÉDITEUR POUR MODIFIER --}}
+    <a href="{{ route('produits.personnalisation', $item['id']) }}" class="small text-primary">
+        <i class="bi bi-pencil"></i> Modifier la personnalisation
+    </a>
+</div>
+
     @endif
 </div>
 

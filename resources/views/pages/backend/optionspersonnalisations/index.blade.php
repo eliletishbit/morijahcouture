@@ -19,6 +19,7 @@
                     <th>ID</th>
                     <th>Nom option</th>
                     <th>Type option</th>
+                   
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -28,6 +29,7 @@
                         <td>{{ $option->id }}</td>
                         <td>{{ $option->nom_option }}</td>
                         <td>{{ $option->type_option }}</td>
+                        
                         <td>
                             <a href="{{ route('admin.option-personnalisations.show', $option->id) }}" class="btn btn-info btn-sm">Voir</a>
                             <a href="{{ route('admin.option-personnalisations.edit', $option->id) }}" class="btn btn-warning btn-sm">Modifier</a>

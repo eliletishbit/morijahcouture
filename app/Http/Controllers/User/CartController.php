@@ -22,35 +22,7 @@ class CartController extends Controller
         return view('pages.frontend.cart.index', compact('cart', 'total'));
     }
 
-    // public function ajouter(Request $request, $produitId)
-    // {
-    //     $produit = Produit::findOrFail($produitId);
-    //     // dd("Ajout produit $produitId");
-    //     if ($produit->stock < 1) {
-    //         return redirect()->back()->with('error', 'Produit en rupture de stock.');
-    //     }
-
-    //     $cart = session()->get('cart', []);
-        
-    //     if(isset($cart[$produitId])) {
-    //         if ($cart[$produitId]['quantite'] >= $produit->stock) {
-    //             return redirect()->back()->with('error', 'Stock insuffisant.');
-    //         }
-    //         $cart[$produitId]['quantite']++;
-    //     } else {
-    //         $cart[$produitId] = [
-    //             "nom" => $produit->nom,
-    //             "quantite" => 1,
-    //             "prix" => $produit->prix_base,
-    //             "image" => $produit->image_produit,
-    //             "stock" => $produit->stock
-    //         ];
-    //     }
-        
-    //     session()->put('cart', $cart);
-    //      // Redirect vers la page panier
-    // return redirect()->route('cart.index')->with('success', 'Produit ajouté au panier!');
-    // }
+    
 
     public function ajouter(Request $request, $produitId)
     {

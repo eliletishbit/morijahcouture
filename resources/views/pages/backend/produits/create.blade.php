@@ -95,12 +95,28 @@
             <label for="image_produit" class="form-label">Image du produit</label>
             <input type="file" name="image_produit" class="form-control" required />
         </div>
+        
+        {{-- image modele --}}
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="image_modele_neutre" class="form-label">Modèle neutre (base pour personnalisation)</label>
+                <input type="file" class="form-control @error('image_modele_neutre') is-invalid @enderror" 
+                    id="image_modele_neutre" name="image_modele_neutre" accept="image/png,image/jpeg">
+                @error('image_modele_neutre') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                @if(isset($produit) && $produit->image_modele_neutre)
+                    <div class="mt-2">
+                        <img src="{{ asset('storage/' . $produit->image_modele_neutre) }}" alt="Modèle neutre" style="height: 80px;">
+                        <p class="small text-muted mt-1">Format recommandé : PNG avec dimensions exactes</p>
+                    </div>
+                @endif
+            </div>
+        </div>
 
         <!-- Bloc catégorie option personnalisable, caché par défaut -->
         <div id="personnalisable-categorie-block" class="mb-3" style="display:none">
             <label for="categorie_option_personnalisation_id" class="form-label">Catégorie d'option de personnalisation</label>
             <select name="categorie_option_personnalisation_id" id="categorie_option_personnalisation_id" class="form-select">
-                <option value="">-- Sélectionner une catégorie --</option>
+                <option value="">-- Sélectionner une option --</option>
                 @foreach ($categoriesOptions as $categorie)
                 <option value="{{ $categorie->id }}" @selected(old('categorie_option_personnalisation_id') == $categorie->id)>{{ $categorie->nom_categorie }}</option>
                 @endforeach

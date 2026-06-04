@@ -46,6 +46,7 @@ class ProductController extends Controller
             'delai_fabrication' => 'nullable|integer|min:0',
             'delai_livraison' => 'nullable|integer|min:0',
             'image_produit' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_modele_neutre' => 'nullable|image|mimes:jpeg,png',
             'pieces' => 'nullable|array|max:7',
             'pieces.*' => 'exists:produits,id',
             'image_personnalisee' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', // 5 MB max
@@ -60,6 +61,10 @@ class ProductController extends Controller
         if ($request->hasFile('image_produit')) {
             $path = $request->file('image_produit')->store('produits_images', 'public');
             $data['image_produit'] = $path;
+        }
+
+         if ($request->hasFile('image_modele_neutre')) {
+            $data['image_modele_neutre'] = $request->file('image_modele_neutre')->store('produits_modeles', 'public');
         }
 
         // Création du produit (tenue ou simple produit)
@@ -109,7 +114,8 @@ class ProductController extends Controller
             }
         }
 
-        $produit->optionsValeurs()->sync($syncData);
+       $produit->load('optionsPersonnalisation');
+        $produit->optionsPersonnalisation()->sync($syncData);
         
         return redirect()->route('admin.products.index')->with('success', 'Produit créé avec succès.');
     }
@@ -126,13 +132,23 @@ class ProductController extends Controller
         $sousCategories = SousCategorie::all();
         $materiaux = Materiau::all();
 
-        // $product->load('pieces'); 
+        //charger option de perrsonnalisations et
 
-        $product->load('optionsValeurs'); // charger options valeurs liées
+        //charger les options de personnalisations du produit 
+       $product->load('optionsPersonnalisation');
+       // recuperer les options electionnées
+$selectedOptions = $product->optionsPersonnalisation->pluck('pivot.valeur_option_id', 'id');
+    
+// Récuperrer les options de personnalisations sélectionnées (même si la collection est vide)
+    $selectedOptions = $product->optionsPersonnalisation 
+        ? $product->optionsPersonnalisation->pluck('pivot.valeur_option_id', 'id')->toArray()
+        : [];
+
+    //charger les categories d'option de personnalisaton avec les sous options et valeurs options si existants
     $categoriesOptions = CategorieOptionPersonnalisation::with('options.sousOptions.valeurs')->get();
 
 
-        return view('pages.backend.produits.edit', compact('product', 'collections', 'sousCategories', 'materiaux','categoriesOptions'));
+        return view('pages.backend.produits.edit', compact('product', 'collections', 'sousCategories', 'materiaux','categoriesOptions', 'selectedOptions'));
     }
 
     public function update(Request $request, Produit $product)
@@ -150,6 +166,7 @@ class ProductController extends Controller
             'delai_fabrication' => 'nullable|integer|min:0',
             'delai_livraison' => 'nullable|integer|min:0',
             'image_produit' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_modele_neutre' => 'nullable|image|mimes:jpeg,png',
             'pieces' => 'nullable|array|max:7',
             'pieces.*' => 'exists:produits,id',
             'image_personnalisee' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', // 5 MB max
@@ -169,6 +186,12 @@ class ProductController extends Controller
             unset($data['image_produit']); // ne pas écraser si pas uploadé
         }
 
+         if ($request->hasFile('image_modele_neutre')) {
+            $data['image_modele_neutre'] = $request->file('image_modele_neutre')->store('produits_modeles', 'public');
+        }else {
+            unset($data['image_modele_neutre']); // ne pas écraser si pas uploadé
+        }
+
         $product->update($data);
 
         // Gestion image personnalisée
@@ -185,7 +208,7 @@ class ProductController extends Controller
             if ($optionId && $valeurId) {
                
 
-                $produit->imagesPersonnalisees()->attach($imagePersonnalisee->id, [
+                $product->imagesPersonnalisees()->attach($imagePersonnalisee->id, [
                     'option_personnalisation_id' => $optionId,
                     'valeur_option_id' => $valeurId,
                     'image' => $path,
@@ -218,7 +241,7 @@ $optionsSelected = $request->input('options', []); // tableau option_id => valeu
             }
         }
 
-        $produit->optionsValeurs()->sync($syncData);
+        $product->optionsPersonnalisation()->sync($syncData);
 
         return redirect()->route('admin.products.index')->with('success', 'Produit mis à jour avec succès.');
     }

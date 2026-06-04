@@ -17,11 +17,11 @@ class WelcomeController extends Controller
     {
         // Récupérer les top 20 produits de la sous-catégorie "tenues" avec leurs pièces liées
         $tenueproduits = Produit::whereHas('sousCategorie', function($query) {
-            $query->where('nom', 'tenues');
+            $query->where('nom', 'ideeproduit');
         })->with('pieces')->take(20)->get();
 
         // Récupérer les sous-catégories dont categorie_id = 1 / 1 POUR VETEMENTS
-        $sousCategories = SousCategorie::where('categorie_id', 1)->get();
+        $sousCategories = SousCategorie::where('categorie_id', 4)->get();
 
         // Récupérer toutes les catégories
         $categories = Categorie::all();

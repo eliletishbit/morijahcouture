@@ -12,6 +12,8 @@ class ValeurOption extends Model
         'sous_option_personnalisation_id',
         'valeur',
         'image',
+        'image_calque',
+        'ordre_calque',
         'prix',
     ];
 

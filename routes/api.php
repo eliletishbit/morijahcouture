@@ -10,4 +10,7 @@ Route::get('/options-categorie/{id}', function($id) {
     return response()->json($categorie);
 });
 
+// routes/api.php
+Route::get('/produit/{id}/pieces', [AccueilController::class, 'getPieces']);
+
 

@@ -11,13 +11,13 @@ use App\Models\CategorieOptionPersonnalisation;
 class OptionPersonnalisationController extends Controller{
     public function index()
     {
-        $options = OptionPersonnalisation::with(['produit', 'categorie', 'sousOptions.valeurs'])->paginate(10);
+        $options = OptionPersonnalisation::with(['produits', 'categorie', 'sousOptions.valeurs'])->paginate(10);
         return view('pages.frontend.optionspersonnalisations.index', compact('options'));
     }
 
     public function show($id)
     {
-        $option = OptionPersonnalisation::with(['produit', 'categorie', 'sousOptions.valeurs'])->findOrFail($id);
+        $option = OptionPersonnalisation::with(['produits', 'categorie', 'sousOptions.valeurs'])->findOrFail($id);
         return view('pages.frontend.optionspersonnalisations.show', compact('option'));
     }
 

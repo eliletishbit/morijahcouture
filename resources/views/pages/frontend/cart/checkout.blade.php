@@ -107,8 +107,8 @@
                     >
                         @foreach($methodesPaiement as $methode)
                             <option 
-                                value="{{ $methode->code }}" 
-                                {{ old('methode_paiement') == $methode->code ? 'selected' : '' }}
+                                value="{{ $methode->id}}" 
+                                {{ old('methode_paiement') == $methode->id ? 'selected' : '' }}
                             >
                                 {{ $methode->nom }}
                             </option>

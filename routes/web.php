@@ -1,89 +1,104 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProfileController;
-
-
-//imports controllers admin
-use App\Http\Controllers\WelcomeController;
-use App\Livewire\ProductCustomizationEditor;
-
-use App\Http\Controllers\User\CartController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\CategoryController;
-
-use App\Http\Controllers\Admin\LookbookController;
-use App\Http\Controllers\Admin\PaiementController;
-use App\Http\Controllers\Admin\CollectionController;
-use App\Http\Controllers\User\UserProductController;
-use App\Http\Controllers\User\UserprofileController;
 use App\Http\Controllers\Admin\AvisProduitController;
+use App\Http\Controllers\Admin\CaracteristiqueProduitController;
 use App\Http\Controllers\Admin\CarteCadeauController;
-use App\Http\Controllers\Admin\EchantillonController;
-use App\Http\Controllers\Admin\IdeeProduitController;
-
-use App\Http\Controllers\User\UserLookbookController;
-use App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\Admin\SousCategoryController;
-use App\Http\Controllers\Admin\ValeurOptionController;
-
-//import controllers user
-
-use App\Http\Controllers\Admin\ImageLookbookController;
-use App\Http\Controllers\Admin\ModeLivraisonController;
-use App\Http\Controllers\Admin\VideoLookbookController;
-use App\Http\Controllers\User\UserCollectionController;
-use App\Http\Controllers\Admin\MethodePaiementController;
-use App\Http\Controllers\Admin\PointInteractifController;
 use App\Http\Controllers\Admin\CatalogueEchantillonController;
 use App\Http\Controllers\Admin\CategorieIdeeProduitController;
-use App\Http\Controllers\SousOptionPersonnalisationController;
-use App\Http\Controllers\Admin\CaracteristiqueProduitController;
-use App\Http\Controllers\Admin\OptionPersonnalisationController;
-use App\Http\Controllers\CategorieOptionPersonnalisationController;
-use App\Http\Controllers\User\OrderController as UserOrderController;
-
-
-
-//route de l'editeur de personnalisation
-use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\Admin\CategorieOptionPersonnalisationController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CollectionController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\EchantillonController;
+use App\Http\Controllers\Admin\IdeeProduitController;
+use App\Http\Controllers\Admin\ImageLookbookController;
+use App\Http\Controllers\Admin\LookbookController;
+use App\Http\Controllers\Admin\MethodePaiementController;
+use App\Http\Controllers\Admin\ModeLivraisonController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\OptionPersonnalisationController;
+use App\Http\Controllers\Admin\PaiementController;
+use App\Http\Controllers\Admin\PointInteractifController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SousCategoryController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ValeurOptionController;
+use App\Http\Controllers\Admin\VideoLookbookController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SousOptionPersonnalisationController;
 use App\Http\Controllers\User\AvisProduitController as UserAvisProduitController;
+use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\User\OrderController as UserOrderController;
 use App\Http\Controllers\User\PaymentMethodController as UserPaymentMethodController;
+use App\Http\Controllers\User\UserCollectionController;
+use App\Http\Controllers\User\UserLookbookController;
+use App\Http\Controllers\User\UserProductController;
+use App\Http\Controllers\User\UserprofileController;
+use App\Http\Controllers\WelcomeController;
+use App\Livewire\ProductCustomizationEditor;
+use Illuminate\Support\Facades\Route;
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//PAGES PRINCIPAUX SANS BESOIN D AUTHENTIFICATION
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
+//catalogue des categories
+Route::get('/shop', [WelcomeController::class, 'shop'])->name('shop.grid');
+//affichage vue single product
+Route::get('products/{product}', [UserProductController::class, 'show'])->name('products.show');
 Route::get('/produits/{product}/personnalisation', ProductCustomizationEditor::class)->name('produits.personnalisation');
-
-
 //routes pour la gestion panier commandes checkout
-// routes/web.php
 Route::get('/panier', [CartController::class, 'index'])->name('cart.index');
 Route::post('/panier/ajouter/{produit}', [CartController::class, 'ajouter'])->name('cart.ajouter');
 Route::post('/panier/maj', [CartController::class, 'mettreAJour'])->name('cart.update');
 Route::post('/panier/supprimer', [CartController::class, 'supprimer'])->name('cart.remove');
 Route::post('/panier/vider', [CartController::class, 'vider'])->name('cart.clear');
+//collections et sous-categories
+Route::get('sous-categories/{id}/collections', [UserCollectionController::class, 'index'])->name('collections.index');
+Route::get('collections/{id}', [UserCollectionController::class, 'show'])->name('collections.show');
 
-Route::middleware(['auth'])->group(function () {
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+//PAGES ACCESSIBLES QU AU UTILISATEURS/ACHETEURS (role user) AUTHENTIFIES
+Route::middleware(['auth','role:user'])->group(function () {
     Route::get('/checkout', [UserOrderController::class, 'checkout'])->name('checkout');
     Route::post('/commander', [UserOrderController::class, 'store'])->name('commandes.store');
     Route::get('/commandes', [UserOrderController::class, 'index'])->name('commandes.index');
     Route::get('/commandes/{commande}', [UserOrderController::class, 'show'])->name('commandes.show');
+
+
+    // ========== MESURES ==========
+    // Formulaire des mesures
+    Route::get('/produit/{produit}/mesures', [App\Http\Controllers\User\MesureController::class, 'index'])
+        ->name('mesures.index');
+    
+    // Enregistrement des mesures
+    Route::post('/produit/{produit}/mesures', [App\Http\Controllers\User\MesureController::class, 'store'])
+        ->name('mesures.store');
+    
+    // (Optionnel) Afficher une mesure spécifique
+    Route::get('/mesures/{mesure}', [App\Http\Controllers\User\MesureController::class, 'show'])
+        ->name('mesures.show');
+    
+    // (Optionnel) Modifier une mesure
+    Route::get('/mesures/{mesure}/edit', [App\Http\Controllers\User\MesureController::class, 'edit'])
+        ->name('mesures.edit');
+    
+    // (Optionnel) Mettre à jour une mesure
+    Route::put('/mesures/{mesure}', [App\Http\Controllers\User\MesureController::class, 'update'])
+        ->name('mesures.update');
+    
+    // (Optionnel) Supprimer une mesure
+    Route::delete('/mesures/{mesure}', [App\Http\Controllers\User\MesureController::class, 'destroy'])
+        ->name('mesures.destroy');
+
 });
-
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
-//catalogue des categories
-Route::get('/shop', [WelcomeController::class, 'shop'])->name('shop.grid');
-
-
-
-
 
 //Dashboard
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 // Gestion du profil utilisateur
 Route::middleware('auth')->group(function () {
@@ -92,19 +107,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-//collections et sous-categories
-Route::get('sous-categories/{id}/collections', [UserCollectionController::class, 'index'])->name('collections.index');
-Route::get('collections/{id}', [UserCollectionController::class, 'show'])->name('collections.show');
-
-
-//affichage vue single product
-Route::get('products/{product}', [UserProductController::class, 'show'])->name('products.show');
 
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//a securiser via admin
 Route::resource('categorieoptionpersonnalisations', CategorieOptionPersonnalisationController::class);
 Route::resource('sousoptionpersonnalisations', SousOptionPersonnalisationController::class);
-
 
 //lookbooks
 // web.php
@@ -123,7 +134,9 @@ require __DIR__ . '/auth.php';
 ///////////////SPECIFIQUES ROUTES: role middleware
 
 // // PRIVATE USER DASHBOARD ROUTES : role =user
-Route::middleware(['auth', 'verified', 'role:user'])->prefix('user')->name('user.')->group(function () {
+Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(function () {
+
+
     
     // Tableau de bord user (compte, récapitulatif)
     Route::get('dashboarduser', [UserDashboardController::class, 'index'])->name('dashboarduser');
@@ -149,21 +162,10 @@ Route::middleware(['auth', 'verified', 'role:user'])->prefix('user')->name('user
     Route::resource('produits', UserProductController::class);
 
     //panier
-    // Route::get('panier', [CartController::class, 'show'])->name('panier.show');
+    Route::get('panier', [CartController::class, 'show'])->name('panier.show');
+
     // Route::post('panier/checkout', [CartController::class, 'checkout'])->name('panier.checkout');
 
-
-
-
-
-
-
-    
-
-
- 
-    
- 
    
 
 
@@ -232,6 +234,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     Route::resource('notifications', NotificationController::class);
 });
 
-
+Route::get('/test', function () {
+    return view('test');
+});
 
 

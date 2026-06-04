@@ -7,9 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class CategorieOptionPersonnalisation extends Model
 {
     //
-     protected $fillable = ['nom_categorie'];
+     protected $fillable = [
+      'nom_categorie'
+      ];
 
      public function options(){
        return $this->hasMany(OptionPersonnalisation::class, 'categorie_option_personnalisation_id');
      }
+
+     
+    public function sousCategories()
+    {
+        return $this->hasMany(SousCategorie::class);
+    }
+
+
+
 }

@@ -47,61 +47,121 @@ class OrderController extends Controller
         return view('pages.frontend.cart.checkout', compact('cart', 'total', 'modesLivraison', 'user', 'methodesPaiement'));
     }
 
-    public function store(Request $request)
-    {
-        dd($request->all());
+    // public function store(Request $request)
+    // {
+    //     // dd($request->all());
 
-       $request->validate([
-            'mode_livraison_id' => 'required|exists:mode_livraisons,id',
-            'adresse_livraison' => 'required|string|min:5',
-            'adresse_facturation' => 'nullable|string',
-            'methode_paiement' => 'required|string',
-            'notes' => 'nullable|string',
+    //    $request->validate([
+    //         'mode_livraison_id' => 'required|exists:mode_livraisons,id',
+    //         'adresse_livraison' => 'required|string|min:5',
+    //         'adresse_facturation' => 'nullable|string',
+    //         'methode_paiement' => 'required|string',
+    //         'notes' => 'nullable|string',
+    //     ]);
+
+        
+    //     $cart = session()->get('cart', []);
+        
+    //     if(empty($cart)) {
+    //         return redirect()->route('cart.index')->with('error', 'Panier vide.');
+    //     }
+
+    //    return DB::transaction(function () use ($request, $cart) {
+
+    //         $commande = Commande::create([
+    //             'user_id' => Auth::id(),
+    //             'numero_commande' => Commande::genererNumeroCommande(),
+    //             'mode_livraison_id' => $request->mode_livraison_id,
+    //             'total' => 0, // sera mis à jour ensuite
+    //             'statut' => 'en cours',
+    //             'adresse_livraison' => $request->adresse_livraison,
+    //             'adresse_facturation' => $request->adresse_facturation ?? $request->adresse_livraison,
+    //             'methode_paiement' => $request->methode_paiement,
+    //             'statut_paiement' => 'en attente',
+    //             'notes' => $request->notes,
+    //         ]);
+
+    //         $totalCommande = 0;
+
+    //         foreach($cart as $produitId => $item) {
+    //             $produit = Produit::find($produitId);
+    //             $prixTotal = $item['prix'] * $item['quantite'];
+    //             $totalCommande += $prixTotal;
+
+    //             $commande->ajouterProduit($produitId, $item['quantite'], $item['prix']);
+
+    //             $produit->decrement('stock', $item['quantite']);
+    //         }
+
+    //         // Mettre à jour le total de la commande
+    //         $commande->update(['total' => $totalCommande]);
+
+    //         session()->forget('cart');
+
+            
+    //     });
+
+    //     return redirect()->route('commandes.show', $commande->id)
+    //             ->with('success', "Commande #{$commande->numero_commande} créée!");
+
+    // }
+
+
+    public function store(Request $request)
+{
+    $request->validate([
+        'mode_livraison_id' => 'required|exists:mode_livraisons,id',
+        'adresse_livraison' => 'required|string|min:5',
+        'adresse_facturation' => 'nullable|string',
+        'methode_paiement' => 'required|string',
+        'notes' => 'nullable|string',
+    ]);
+
+    $cart = session()->get('cart', []);
+    
+    if(empty($cart)) {
+        return redirect()->route('cart.index')->with('error', 'Panier vide.');
+    }
+
+    // Exécuter la transaction et stocker la commande dans une variable
+    $commande = DB::transaction(function () use ($request, $cart) {
+
+        $commande = Commande::create([
+            'user_id' => Auth::id(),
+            'numero_commande' => Commande::genererNumeroCommande(),
+            'mode_livraison_id' => $request->mode_livraison_id,
+            'total' => 0,
+            'statut' => 'en cours',
+            'adresse_livraison' => $request->adresse_livraison,
+            'adresse_facturation' => $request->adresse_facturation ?? $request->adresse_livraison,
+            'methode_paiement' => $request->methode_paiement,
+            'statut_paiement' => 'en attente',
+            'notes' => $request->notes,
         ]);
 
-        $cart = session()->get('cart', []);
-        
-        if(empty($cart)) {
-            return redirect()->route('cart.index')->with('error', 'Panier vide.');
+        $totalCommande = 0;
+
+        foreach($cart as $produitId => $item) {
+            $produit = Produit::find($produitId);
+            $prixTotal = $item['prix'] * $item['quantite'];
+            $totalCommande += $prixTotal;
+
+            $commande->ajouterProduit($produitId, $item['quantite'], $item['prix']);
+
+            $produit->decrement('stock', $item['quantite']);
         }
 
-       return DB::transaction(function () use ($request, $cart) {
+        $commande->update(['total' => $totalCommande]);
 
-            $commande = Commande::create([
-                'user_id' => Auth::id(),
-                'numero_commande' => Commande::genererNumeroCommande(),
-                'mode_livraison_id' => $request->mode_livraison_id,
-                'total' => 0, // sera mis à jour ensuite
-                'statut' => 'en cours',
-                'adresse_livraison' => $request->adresse_livraison,
-                'adresse_facturation' => $request->adresse_facturation ?? $request->adresse_livraison,
-                'methode_paiement' => $request->methode_paiement,
-                'statut_paiement' => 'en attente',
-                'notes' => $request->notes,
-            ]);
+        session()->forget('cart');
 
-            $totalCommande = 0;
+        return $commande; // ← RETOURNE LA COMMANDE
+    });
 
-            foreach($cart as $produitId => $item) {
-                $produit = Produit::find($produitId);
-                $prixTotal = $item['prix'] * $item['quantite'];
-                $totalCommande += $prixTotal;
-
-                $commande->ajouterProduit($produitId, $item['quantite'], $item['prix']);
-
-                $produit->decrement('stock', $item['quantite']);
-            }
-
-            // Mettre à jour le total de la commande
-            $commande->update(['total' => $totalCommande]);
-// dd($commande);
-            session()->forget('cart');
-
-            return redirect()->route('commandes.show', $commande->id)
-                ->with('success', "Commande #{$commande->numero_commande} créée!");
-        });
-
-    }
+    // Maintenant $commande est accessible ici
+    return redirect()->route('commandes.show', $commande->id)
+        ->with('success', "Commande #{$commande->numero_commande} créée!");
+}
 
     public function show(Commande $commande)
     {
