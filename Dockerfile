@@ -32,11 +32,12 @@ RUN php artisan config:cache \
 RUN chown -R www-data:www-data /var/www/html/storage \
     && chmod -R 775 /var/www/html/storage
 
-# 8. Installation de la configuration Apache personnalisée
-COPY vhost.conf /etc/apache2/sites-available/000-default.conf
+# 8. Forcer Apache à pointer vers le dossier public et autoriser les .htaccess
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/apache2.conf \
+    && sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
 # 9. Configuration du port dynamique pour Render
-RUN sed -i 's/80/${PORT}/g' /etc/apache2/ports.conf
+RUN sed -i 's/80/${PORT}/g' /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
 
 # 10. Exposition du port et démarrage
 EXPOSE 80
