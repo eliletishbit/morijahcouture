@@ -45,4 +45,6 @@ RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/a
 
 # 9. Exposition du port et démarrage
 EXPOSE 80
-CMD apache2-foreground
+
+# 10. CMD de démarrage avec correction à la volée du dossier public
+CMD sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf && apache2-foreground
