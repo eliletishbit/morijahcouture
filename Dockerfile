@@ -1,7 +1,7 @@
 # Utilise l'image officielle PHP 8.2 avec Apache
 FROM php:8.2-apache
 
-# 1. Installation des dépendances système (y compris libpq-dev pour PostgreSQL)
+# 1. Installation des dépendances système
 RUN apt-get update && apt-get install -y \
     libzip-dev zip unzip libpng-dev libjpeg-dev libfreetype6-dev libpq-dev \
     nodejs npm \
@@ -18,7 +18,7 @@ WORKDIR /var/www/html
 # 4. Copie des fichiers du projet
 COPY . .
 
-# 5. Installation des dépendances PHP et compilation des assets JS/CSS
+# 5. Installation des dépendances PHP et compilation des assets
 RUN composer install --no-dev --optimize-autoloader \
     && npm install \
     && npm run build
@@ -32,19 +32,12 @@ RUN php artisan config:cache \
 RUN chown -R www-data:www-data /var/www/html/storage \
     && chmod -R 775 /var/www/html/storage
 
+# 8. Installation de la configuration Apache personnalisée
+COPY vhost.conf /etc/apache2/sites-available/000-default.conf
 
-# --- AJOUTE CETTE LIGNE ---
-# Cette commande force le build à ignorer tout le cache à partir d'ici
-RUN echo "Forcage du build le 04 juin 2026"
+# 9. Configuration du port dynamique pour Render
+RUN sed -i 's/80/${PORT}/g' /etc/apache2/ports.conf
 
-
-# 8. Configuration d'Apache pour le port de Render
-# 8. Configuration d'Apache pour le port de Render et le dossier public
-RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf \
-    && sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
-
-# 9. Exposition du port et démarrage
+# 10. Exposition du port et démarrage
 EXPOSE 80
-
-# 10. CMD de démarrage avec correction à la volée du dossier public
-CMD sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf && apache2-foreground
+CMD apache2-foreground
