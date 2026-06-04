@@ -38,4 +38,8 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 # 7. Lancer les DEUX services : Nginx (web) et PHP-FPM (traitement)
 EXPOSE 80
+
+# Créer le lien symbolique pour rendre le dossier storage public
+RUN php artisan storage:link
+
 CMD service nginx start && php-fpm
