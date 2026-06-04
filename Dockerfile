@@ -32,6 +32,12 @@ RUN php artisan config:cache \
 RUN chown -R www-data:www-data /var/www/html/storage \
     && chmod -R 775 /var/www/html/storage
 
+
+# --- AJOUTE CETTE LIGNE ---
+# Cette commande force le build à ignorer tout le cache à partir d'ici
+RUN echo "Forcage du build le 04 juin 2026"
+
+
 # 8. Configuration d'Apache pour le port de Render
 # 8. Configuration d'Apache pour le port de Render et le dossier public
 RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf \
