@@ -1,20 +1,20 @@
-# Utilise une image PHP avec Apache déjà configuré
-FROM php:8.2-apache
+FROM php:8.2-fpm
 
-# Installation des extensions nécessaires
+# Installation des extensions
 RUN apt-get update && apt-get install -y libpng-dev libzip-dev \
     && docker-php-ext-install pdo_mysql zip
 
-# Activer le rewrite module pour Laravel
-RUN a2enmod rewrite
+# Définition du répertoire de travail
+WORKDIR /var/www/html
 
-# Copier les fichiers
-COPY . /var/www/html
+# Copie des fichiers
+COPY . .
 
-# Configurer le répertoire public
-RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
-
-# Donner les permissions
+# Permissions nécessaires pour Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-EXPOSE 80
+# Exposer le port 8000 (standard pour PHP local)
+EXPOSE 8000
+
+# Commande de démarrage simple
+CMD php artisan serve --host=0.0.0.0 --port=8000
