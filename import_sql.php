@@ -1,22 +1,23 @@
 <?php
-// On utilise PDO qui est présent par défaut dans tout PHP
-// Remplace 'mysql.railway.internal' par 'mysql' tout court
-$dsn = 'mysql:host=mysql;dbname=railway;charset=utf8mb4';
-$user = 'root';
-$pass = 'hwXwcuBdBBRXlEbUwPPrVepwLKASfUHs';
+// Liste des hôtes potentiels
+$hosts = ['mysql', 'mysql.railway.internal', '127.0.0.1', getenv('MYSQLHOST')];
 
-try {
-    $pdo = new PDO($dsn, $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+foreach ($hosts as $host) {
+    if (empty($host)) continue;
+    echo "Tentative de connexion sur : $host... ";
     
-    // Lecture du fichier
-    $sql = file_get_contents('morijahcouture.sql');
-    
-    // Importation
-    $pdo->exec($sql);
-    
-    echo "Succès total : Base de données importée !";
-} catch (PDOException $e) {
-    echo "ERREUR FATALE PDO : " . $e->getMessage();
+    $dsn = "mysql:host=$host;dbname=railway;charset=utf8mb4";
+    try {
+        $pdo = new PDO($dsn, 'root', 'hwXwcuBdBBRXlEbUwPPrVepwLKASfUHs');
+        echo "SUCCÈS !\n";
+        
+        // Importation
+        $sql = file_get_contents('morijahcouture.sql');
+        $pdo->exec($sql);
+        echo "Importation terminée avec succès.\n";
+        exit;
+    } catch (PDOException $e) {
+        echo "Échec (" . $e->getMessage() . ")\n";
+    }
 }
 ?>
