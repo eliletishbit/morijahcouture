@@ -1,6 +1,7 @@
 <?php
 // On utilise PDO qui est présent par défaut dans tout PHP
-$dsn = 'mysql:host=mysql.railway.internal;dbname=railway;charset=utf8mb4';
+// Remplace 'mysql.railway.internal' par 'mysql' tout court
+$dsn = 'mysql:host=mysql;dbname=railway;charset=utf8mb4';
 $user = 'root';
 $pass = 'hwXwcuBdBBRXlEbUwPPrVepwLKASfUHs';
 
