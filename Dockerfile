@@ -77,11 +77,15 @@ WORKDIR /var/www/html
 # 5. Dépendances PHP et JS
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
+
 COPY package.json package-lock.json ./
-RUN npm install
+# On installe tout, y compris les devDependencies nécessaires au build
+RUN npm install 
+
 COPY . .
-# La commande de build qui génère le dossier public/build
-RUN npm run build
+
+# On force l'utilisation de npx pour localiser vite proprement
+RUN npx vite build
 
 # 6. Permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
