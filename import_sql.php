@@ -1,23 +1,31 @@
 <?php
-// Liste des hôtes potentiels
-$hosts = ['mysql', 'mysql.railway.internal', '127.0.0.1', getenv('MYSQLHOST')];
+// Configuration extraite de ton URL Railway
+$host = 'acela.proxy.rlwy.net';
+$port = '36749';
+$db   = 'railway';
+$user = 'root';
+$pass = 'hwXwcuBdBBRXlEbUwPPrVepwLKASfUHs';
 
-foreach ($hosts as $host) {
-    if (empty($host)) continue;
-    echo "Tentative de connexion sur : $host... ";
+$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
+
+try {
+    $pdo = new PDO($dsn, $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    $dsn = "mysql:host=$host;dbname=railway;charset=utf8mb4";
-    try {
-        $pdo = new PDO($dsn, 'root', 'hwXwcuBdBBRXlEbUwPPrVepwLKASfUHs');
-        echo "SUCCÈS !\n";
-        
-        // Importation
-        $sql = file_get_contents('morijahcouture.sql');
-        $pdo->exec($sql);
-        echo "Importation terminée avec succès.\n";
-        exit;
-    } catch (PDOException $e) {
-        echo "Échec (" . $e->getMessage() . ")\n";
+    // Lecture du fichier
+    $sql_file = 'morijahcouture.sql';
+    if (!file_exists($sql_file)) {
+        die("Erreur : Le fichier $sql_file est introuvable à la racine.");
     }
+    
+    $sql_content = file_get_contents($sql_file);
+    
+    // Exécution
+    $pdo->exec($sql_content);
+    
+    echo "SUCCÈS : Importation de morijahcouture.sql terminée avec succès !";
+    
+} catch (PDOException $e) {
+    echo "ERREUR DE CONNEXION/IMPORT : " . $e->getMessage();
 }
 ?>
