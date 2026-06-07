@@ -78,14 +78,16 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
+# On copie les fichiers de config avant l'installation
 COPY package.json package-lock.json ./
-# On installe tout, y compris les devDependencies nécessaires au build
-RUN npm install 
+
+# On force l'installation propre sans cache bizarre
+RUN npm ci
 
 COPY . .
 
-# On force l'utilisation de npx pour localiser vite proprement
-RUN npx vite build
+# On lance le build
+RUN npm run build
 
 # 6. Permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
