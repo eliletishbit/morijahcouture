@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CategorieIdeeProduitController;
 use App\Http\Controllers\Admin\CategorieOptionPersonnalisationController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CollectionController;
+use App\Http\Controllers\Admin\CommandeController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\EchantillonController;
 use App\Http\Controllers\Admin\IdeeProduitController;
@@ -96,9 +97,9 @@ Route::middleware(['auth','role:user'])->group(function () {
 });
 
 //Dashboard
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
 
 // Gestion du profil utilisateur
 Route::middleware('auth')->group(function () {
@@ -224,7 +225,10 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     Route::resource('mode-livraisons', ModeLivraisonController::class);
 
     // Commandes
- 
+     // Commandes admin
+    Route::get('/commandes', [CommandeController::class, 'index'])->name('commandes.index');
+    Route::get('/commandes/{id}', [App\Http\Controllers\Admin\CommandeController::class, 'show'])->name('commandes.show');
+    Route::put('/commandes/{id}/statut', [App\Http\Controllers\Admin\CommandeController::class, 'updateStatut'])->name('commandes.statut');
 
     // Méthodes et paiements
     Route::resource('methode-paiements', MethodePaiementController::class);

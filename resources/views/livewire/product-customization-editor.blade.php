@@ -39,6 +39,24 @@
                     <div class="card-header bg-white border-0 pt-4 pb-2">
                         <h5 class="mb-0 fw-bold">
                             <i class="bi bi-grid-3x3-gap-fill me-2"></i>
+
+
+
+
+
+
+
+                            {{--  --}}
+
+
+
+
+
+
+
+
+
+                            
                             {{ $options->firstWhere('id', $activeOptionId)?->nom_option }}
                         </h5>
                     </div>

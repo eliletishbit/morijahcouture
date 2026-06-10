@@ -104,9 +104,24 @@
     @endif
     
     {{-- LIEN VERS L'ÉDITEUR POUR MODIFIER --}}
-    <a href="{{ route('produits.personnalisation', $item['id']) }}" class="small text-primary">
+    {{-- <a href="{{ route('produits.personnalisation', $item['id']) }}" class="small text-primary">
         <i class="bi bi-pencil"></i> Modifier la personnalisation
-    </a>
+    </a> --}}
+    @foreach($cart as $id => $item)
+            <tr>
+                <td>{{ $item['nom'] }}</td>
+                <td>
+                    {{-- Utilise $id ici, qui est garanti d'exister --}}
+                    @if(isset($item['est_personnalisable']) && $item['est_personnalisable'])
+                        <a href="{{ route('produits.personnalisation', $id) }}" class="small text-primary">
+                            <i class="bi bi-pencil"></i> Modifier la personnalisation
+                        </a>
+                    @else
+                        <span class="small text-muted">Non personnalisable</span>
+                    @endif
+                </td>
+            </tr>
+        @endforeach
 </div>
 
     @endif

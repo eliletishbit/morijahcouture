@@ -69,7 +69,7 @@
                                     <small>{{ auth()->user()->email }}</small>
                                 @endauth
                             </li>
-                            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Accueil</a></li>
+                            {{-- <li><a class="dropdown-item" href="{{ route('dashboard') }}">Accueil</a></li> --}}
                             <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profil</a></li>
                             {{-- <li><a class="dropdown-item" href="{{ route('settings') }}">Paramètres</a></li> --}}
                             <li><hr class="dropdown-divider"></li>

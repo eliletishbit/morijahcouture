@@ -7,33 +7,14 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/dashboard';
-
-    /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -42,9 +23,6 @@ class RegisterController extends Controller
 
     /**
      * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
@@ -58,15 +36,11 @@ class RegisterController extends Controller
 
     /**
      * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
      */
-        protected function create(array $data)
-        {
-            $profilePicturePath = null;
+    protected function create(array $data)
+    {
+        $profilePicturePath = null;
 
-        // Si 'profile_picture' est présent (ici $data est un array, il faudra récupérer le fichier depuis la requête)
         if (request()->hasFile('profile_picture')) {
             $profilePicturePath = request()->file('profile_picture')->store('profile_pictures', 'public');
         }
@@ -76,8 +50,21 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'profile_picture' => $profilePicturePath,
+            'role' => 'user',
         ]);
+    }
 
-    
+    /**
+     * Where to redirect users after registration (dynamic based on role).
+     */
+    protected function redirectTo()
+    {
+        $user = Auth::user();
+        
+        if ($user && $user->role === 'admin') {
+            return route('admin.dashboardadmin');
+        }
+        
+        return route('user.dashboarduser');
     }
 }

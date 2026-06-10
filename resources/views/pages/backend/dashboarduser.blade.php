@@ -1,388 +1,260 @@
+@extends('layouts.backendapp')
 
- 
-<!-- main wrapper -->
-           
-            <main class="main-content-wrapper container " style="width:72%;"  >
-               <section class="container">
-                  
-                  <!-- row -->
-                  <div class="row mb-8">
-                     <div class="col-md-12">
-                        <!-- card -->
-                        <div
-                           class="card bg-light border-0 rounded-4"
-                           style="background-image: url(../assets/images/slider/slider-image-1.jpg); background-repeat: no-repeat; background-size: cover; background-position: right">
-                           <div class="card-body p-lg-12">
-                              <h1>Welcome back! uzer</h1>
-                              <p>FreshCart is simple & clean design for developer and designer.</p>
-                              <a href="#" class="btn btn-primary">Create Product</a>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <!-- table -->
-                  <div class="table-responsive-xl mb-6 mb-lg-0">
-                     <div class="row flex-nowrap pb-3 pb-lg-0">
-                        <div class="col-lg-4 col-12 mb-6">
-                           <!-- card -->
-                           <div class="card h-100 card-lg">
-                              <!-- card body -->
-                              <div class="card-body p-6">
-                                 <!-- heading -->
-                                 <div class="d-flex justify-content-between align-items-center mb-6">
-                                    <div>
-                                       <h4 class="mb-0 fs-5">Earnings</h4>
-                                    </div>
-                                    <div class="icon-shape icon-md bg-light-danger text-dark-danger rounded-circle">
-                                       <i class="bi bi-currency-dollar fs-5"></i>
-                                    </div>
-                                 </div>
-                                 <!-- project number -->
-                                 <div class="lh-1">
-                                    <h1 class="mb-2 fw-bold fs-2">$93,438.78</h1>
-                                    <span>Monthly revenue</span>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="col-lg-4 col-12 mb-6">
-                           <!-- card -->
-                           <div class="card h-100 card-lg">
-                              <!-- card body -->
-                              <div class="card-body p-6">
-                                 <!-- heading -->
-                                 <div class="d-flex justify-content-between align-items-center mb-6">
-                                    <div>
-                                       <h4 class="mb-0 fs-5">Orders</h4>
-                                    </div>
-                                    <div class="icon-shape icon-md bg-light-warning text-dark-warning rounded-circle">
-                                       <i class="bi bi-cart fs-5"></i>
-                                    </div>
-                                 </div>
-                                 <!-- project number -->
-                                 <div class="lh-1">
-                                    <h1 class="mb-2 fw-bold fs-2">42,339</h1>
-                                    <span>
-                                       <span class="text-dark me-1">35+</span>
-                                       New Sales
-                                    </span>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="col-lg-4 col-12 mb-6">
-                           <!-- card -->
-                           <div class="card h-100 card-lg">
-                              <!-- card body -->
-                              <div class="card-body p-6">
-                                 <!-- heading -->
-                                 <div class="d-flex justify-content-between align-items-center mb-6">
-                                    <div>
-                                       <h4 class="mb-0 fs-5">Customer</h4>
-                                    </div>
-                                    <div class="icon-shape icon-md bg-light-info text-dark-info rounded-circle">
-                                       <i class="bi bi-people fs-5"></i>
-                                    </div>
-                                 </div>
-                                 <!-- project number -->
-                                 <div class="lh-1">
-                                    <h1 class="mb-2 fw-bold fs-2">39,354</h1>
-                                    <span>
-                                       <span class="text-dark me-1">30+</span>
-                                       new in 2 days
-                                    </span>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+@section('content')
 
-                  <!-- row -->
-                  <div class="row">
-                     <div class="col-xl-8 col-lg-6 col-md-12 col-12 mb-6">
-                        <!-- card -->
-                        <div class="card h-100 card-lg">
-                           <div class="card-body p-6">
-                              <!-- heading -->
-                              <div class="d-flex justify-content-between">
-                                 <div>
-                                    <h3 class="mb-1 fs-5">Revenue</h3>
-                                    <small>(+63%) than last year)</small>
-                                 </div>
-                                 <div>
-                                    <!-- select option -->
-                                    <select class="form-select">
-                                       <option selected>2019</option>
-                                       <option value="2023">2020</option>
-                                       <option value="2024">2021</option>
-                                       <option value="2025">2022</option>
-                                       <option value="2025">2023</option>
-                                    </select>
-                                 </div>
-                              </div>
-                              <!-- chart -->
-                              <div id="revenueChart" class="mt-6"></div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-xl-4 col-lg-6 col-12 mb-6">
-                        <!-- card -->
-                        <div class="card h-100 card-lg">
-                           <!-- card body -->
-                           <div class="card-body p-6">
-                              <!-- heading -->
-                              <h3 class="mb-0 fs-5">Total Sales</h3>
-                              <div id="totalSale" class="mt-6 d-flex justify-content-center"></div>
-                              <div class="mt-4">
-                                 <!-- list -->
-                                 <ul class="list-unstyled mb-0">
-                                    <li class="mb-2">
-                                       <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-circle-fill text-primary" viewBox="0 0 16 16">
-                                          <circle cx="8" cy="8" r="8" />
-                                       </svg>
-                                       <span class="ms-1">
-                                          <span class="text-dark">Shippings $32.98</span>
-                                          (2%)
-                                       </span>
-                                    </li>
-                                    <li class="mb-2">
-                                       <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-circle-fill text-warning" viewBox="0 0 16 16">
-                                          <circle cx="8" cy="8" r="8" />
-                                       </svg>
-                                       <span class="ms-1">
-                                          <span class="text-dark">Refunds $11</span>
-                                          (11%)
-                                       </span>
-                                    </li>
-                                    <li class="mb-2">
-                                       <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-circle-fill text-danger" viewBox="0 0 16 16">
-                                          <circle cx="8" cy="8" r="8" />
-                                       </svg>
-                                       <span class="ms-1">
-                                          <span class="text-dark">Order $14.87</span>
-                                          (1%)
-                                       </span>
-                                    </li>
-                                    <li>
-                                       <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-circle-fill text-info" viewBox="0 0 16 16">
-                                          <circle cx="8" cy="8" r="8" />
-                                       </svg>
-                                       <span class="ms-1">
-                                          <span class="text-dark">Income 3,271</span>
-                                          (86%)
-                                       </span>
-                                    </li>
-                                 </ul>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <!-- row -->
-                  <div class="row">
-                     <div class="col-xl-6 col-lg-6 col-md-12 col-12 mb-6">
-                        <!-- card -->
-                        <div class="card h-100 card-lg">
-                           <!-- card body -->
-                           <div class="card-body p-6">
-                              <h3 class="mb-0 fs-5">Sales Overview</h3>
-                              <div class="mt-6">
-                                 <!-- text -->
-                                 <div class="mb-5">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                       <h5 class="fs-6">Total Profit</h5>
-                                       <span>
-                                          <span class="me-1 text-dark">$1,619</span>
-                                          (8.6%)
-                                       </span>
-                                    </div>
-                                    <!-- main wrapper -->
-                                    <div>
-                                       <!-- progressbar -->
-                                       <div class="progress bg-light-primary" style="height: 6px">
-                                          <div
-                                             class="progress-bar bg-primary"
-                                             role="progressbar"
-                                             aria-label="Example 1px high"
-                                             style="width: 25%"
-                                             aria-valuenow="25"
-                                             aria-valuemin="0"
-                                             aria-valuemax="100"></div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="mb-5">
-                                    <!-- text -->
-                                    <div class="d-flex align-items-center justify-content-between">
-                                       <h5 class="fs-6">Total Income</h5>
-                                       <span>
-                                          <span class="me-1 text-dark">$3,571</span>
-                                          (86.4%)
-                                       </span>
-                                    </div>
-                                    <div>
-                                       <!-- progressbar -->
-                                       <div class="progress bg-info-soft" style="height: 6px">
-                                          <div
-                                             class="progress-bar bg-info"
-                                             role="progressbar"
-                                             aria-label="Example 1px high"
-                                             style="width: 88%"
-                                             aria-valuenow="88"
-                                             aria-valuemin="0"
-                                             aria-valuemax="100"></div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div>
-                                    <!-- text -->
-                                    <div class="d-flex align-items-center justify-content-between">
-                                       <h5 class="fs-6">Total Expenses</h5>
-                                       <span>
-                                          <span class="me-1 text-dark">$3,430</span>
-                                          (74.5%)
-                                       </span>
-                                    </div>
-                                    <div>
-                                       <!-- progressbar -->
-                                       <div class="progress bg-light-danger" style="height: 6px">
-                                          <div
-                                             class="progress-bar bg-danger"
-                                             role="progressbar"
-                                             aria-label="Example 1px high"
-                                             style="width: 45%"
-                                             aria-valuenow="45"
-                                             aria-valuemin="0"
-                                             aria-valuemax="100"></div>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-xl-6 col-lg-6 col-md-12 col-12 mb-6">
-                        <div class="position-relative h-100">
-                           <!-- card -->
-                           <div class="card card-lg mb-6">
-                              <!-- card body -->
-                              <div class="card-body px-6 py-8">
-                                 <div class="d-flex align-items-center">
-                                    <div>
-                                       <!-- svg -->
-                                       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bell text-warning" viewBox="0 0 16 16">
-                                          <path
-                                             d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
-                                       </svg>
-                                    </div>
-                                    <!-- text -->
-                                    <div class="ms-4">
-                                       <h5 class="mb-1">Start your day with New Notification.</h5>
-                                       <p class="mb-0">
-                                          You have
-                                          <a class="link-info" href="#!">2 new notification</a>
-                                       </p>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <!-- card -->
-                           <div class="card card-lg">
-                              <!-- card body -->
-                              <div class="card-body px-6 py-8">
-                                 <div class="d-flex align-items-center">
-                                    <!-- svg -->
-                                    <div>
-                                       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-lightbulb text-success" viewBox="0 0 16 16">
-                                          <path
-                                             d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1z" />
-                                       </svg>
-                                    </div>
-                                    <!-- text -->
-                                    <div class="ms-4">
-                                       <h5 class="mb-1">Monitor your Sales and Profitability</h5>
-                                       <p class="mb-0"><a class="link-info" href="#!">View Performance</a></p>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <!-- row -->
-                  <div class="row">
-                     <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-6">
-                        <div class="card h-100 card-lg">
-                           <!-- heading -->
-                           <div class="p-6">
-                              <h3 class="mb-0 fs-5">Recent Order</h3>
-                           </div>
-                           <div class="card-body p-0">
-                              <!-- table -->
-                              <div class="table-responsive">
-                                 <table class="table table-centered table-borderless text-nowrap table-hover">
-                                    <thead class="bg-light">
-                                       <tr>
-                                          <th scope="col">Order Number</th>
-                                          <th scope="col">Product Name</th>
-                                          <th scope="col">Order Date</th>
-                                          <th scope="col">Price</th>
-                                          <th scope="col">Status</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       <tr>
-                                          <td>#FC0005</td>
-                                          <td>Haldiram's Sev Bhujia</td>
-                                          <td>28 March 2023</td>
-                                          <td>$18.00</td>
-                                          <td>
-                                             <span class="badge bg-light-primary text-dark-primary">Shipped</span>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>#FC0004</td>
-                                          <td>NutriChoice Digestive</td>
-                                          <td>24 March 2023</td>
-                                          <td>$24.00</td>
-                                          <td>
-                                             <span class="badge bg-light-warning text-dark-warning">Pending</span>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>#FC0003</td>
-                                          <td>Onion Flavour Potato</td>
-                                          <td>8 Feb 2023</td>
-                                          <td>$9.00</td>
-                                          <td>
-                                             <span class="badge bg-light-danger text-dark-danger">Cancel</span>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>#FC0002</td>
-                                          <td>Blueberry Greek Yogurt</td>
-                                          <td>20 Jan 2023</td>
-                                          <td>$12.00</td>
-                                          <td>
-                                             <span class="badge bg-light-warning text-dark-warning">Pending</span>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>#FC0001</td>
-                                          <td>Slurrp Millet Chocolate</td>
-                                          <td>14 Jan 2023</td>
-                                          <td>$8.00</td>
-                                          <td>
-                                             <span class="badge bg-light-info text-dark-info">Processing</span>
-                                          </td>
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </section>
-            </main>
+
+<main class="main-content-wrapper container" style="width:90%;">
+  <section class="container px-0">
+
+    <!-- Bannière de bienvenue utilisateur -->
+    <div class="row mb-8">
+      <div class="col-md-12">
+        <div class="card bg-light border-0 rounded-4 overflow-hidden"
+             style="background: linear-gradient(105deg, #ffffff 0%, #f9fef2 100%); border-left: 8px solid #8cc63f;">
+          <div class="card-body p-lg-5 p-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+              <div>
+                <h1 class="display-6 fw-bold" style="color: #2c5a1a;">Bonjour, <span class="text-primary" style="color: #8cc63f;">{{ $user->name ?? 'Client' }}</span></h1>
+                <p class="text-muted mb-3 fs-5">Bienvenue sur votre espace personnel. Commandez des vêtements et costumes sur mesure ou standards, personnalisez-les selon vos envies.</p>
+                <a href="{{ route('shop.grid') }}"  class="btn btn-primary shadow-sm"><i class="fas fa-shopping-cart me-2"></i>Découvrir les produits</a>
+                <a href="#mes-commandes" class="btn shadow-sm ms-2" style="border-color: #8cc63f; color: #4a7729;"><i class="fas fa-truck me-2"></i>Mes commandes</a>
+              </div>
+              <div class="mt-3 mt-md-0">
+                <i class="fas fa-user-astronaut fa-3x" style="color: #d1e6b0;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cartes statistiques client -->
+    <div class="table-responsive-xl mb-6 mb-lg-0">
+      <div class="row flex-nowrap pb-3 pb-lg-0 g-4">
+        <!-- Mes commandes -->
+        <div class="col-lg-4 col-12">
+          <div class="card h-100 card-lg border-0">
+            <div class="card-body p-5">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <div><h4 class="mb-0 fs-5 fw-semibold">Mes commandes</h4></div>
+                <div class="icon-shape" style="background: #eaf6e1; color: #6b9c2a;">
+                  <i class="bi bi-bag-check fs-4"></i>
+                </div>
+              </div>
+              <div class="lh-1">
+                <h1 class="mb-2 fw-bold fs-1" style="color: #3a6b1f;">{{ $stats['total_commandes'] ?? 0 }}</h1>
+                <span class="text-secondary"><i class="fas fa-check-circle me-1 text-success"></i> {{ $stats['commandes_livrees'] ?? 0 }} commandes livrées</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- En cours / personnalisation -->
+        <div class="col-lg-4 col-12">
+          <div class="card h-100 card-lg border-0">
+            <div class="card-body p-5">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <div><h4 class="mb-0 fs-5 fw-semibold">Personnalisations</h4></div>
+                <div class="icon-shape" style="background: #fff0db; color: #e67e22;">
+                  <i class="bi bi-palette fs-4"></i>
+                </div>
+              </div>
+              <div class="lh-1">
+                <h1 class="mb-2 fw-bold fs-1" style="color: #b1560f;">{{ $stats['commandes_en_cours'] ?? 0 }}</h1>
+                <span><span class="fw-semibold me-1 text-dark">{{ $mesuresRecentes->count() ?? 0 }}</span> mesures récentes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total dépensé / fidélité -->
+        <div class="col-lg-4 col-12">
+          <div class="card h-100 card-lg border-0">
+            <div class="card-body p-5">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <div><h4 class="mb-0 fs-5 fw-semibold">Total dépensé</h4></div>
+                <div class="icon-shape" style="background: #e1f5fe; color: #0288d1;">
+                  <i class="bi bi-coin fs-4"></i>
+                </div>
+              </div>
+              <div class="lh-1">
+                <h1 class="mb-2 fw-bold fs-1" style="color: #146b3a;">{{ number_format($stats['total_depenses'] ?? 0, 0, ',', ' ') }} €</h1>
+                <span><span class="fw-semibold me-1">{{ $stats['total_commandes'] ?? 0 }}</span> commandes passées</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Catalogue produits (aperçu) -->
+    <div class="row mb-6 mt-4" id="produits">
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+          <h2 class="fs-2 fw-bold" style="color: #2c5a1a;"><i class="fas fa-tshirt me-2 text-primary"></i>Nos créations</h2>
+          <a href="{{ route('shop.grid') }}" class="btn btn-sm btn-outline-primary rounded-pill">Voir tout <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+
+      <!-- Produit 1 - Costume personnalisable -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 product-card">
+          <img src="https://placehold.co/600x400/e9f5df/6b9c2a?text=Costume+sur+mesure" class="card-img-top rounded-top-4" alt="Costume sur mesure" style="height: 220px; object-fit: cover;">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h5 class="fw-bold">Costume cérémonie</h5>
+              <span class="badge bg-light-primary text-dark-primary">Personnalisable</span>
+            </div>
+            <p class="text-muted small">Tissu au choix, doublure personnalisée, broderie possible.</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <span class="fs-4 fw-bold text-success">249,00 €</span>
+              <a href="{{ route('produits.personnalisation', 1) }}" class="btn btn-sm btn-primary rounded-pill"><i class="fas fa-sliders-h me-1"></i>Personnaliser</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Produit 2 - Robe personnalisable -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4">
+          <img src="https://placehold.co/600x400/fef5e7/e67e22?text=Robe+sur+mesure" class="card-img-top rounded-top-4" alt="Robe personnalisable" style="height: 220px; object-fit: cover;">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h5 class="fw-bold">Robe chic sur mesure</h5>
+              <span class="badge bg-light-warning text-dark-warning">Sur devis</span>
+            </div>
+            <p class="text-muted small">Choix de la coupe, dentelle, couleur Pantone. Délai 15j.</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <span class="fs-4 fw-bold text-success">189,00 €</span>
+              <a href="{{ route('produits.personnalisation', 2) }}" class="btn btn-sm btn-outline-primary rounded-pill"><i class="fas fa-pen-ruler me-1"></i>Configurer</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Produit 3 - Costume standard -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4">
+          <img src="https://placehold.co/600x400/f0f7e8/8cc63f?text=Blazer+Premium" class="card-img-top rounded-top-4" alt="Blazer" style="height: 220px; object-fit: cover;">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h5 class="fw-bold">Blazer élégant</h5>
+              <span class="badge bg-light-info text-dark-info">Prêt-à-porter</span>
+            </div>
+            <p class="text-muted small">Taille standard S à XXL, livraison rapide 3-5j.</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <span class="fs-4 fw-bold text-success">129,00 €</span>
+              <a href="#" class="btn btn-sm btn-success rounded-pill"><i class="fas fa-shopping-bag me-1"></i>Acheter</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section des dernières commandes -->
+    <div class="row" id="mes-commandes">
+      <div class="col-xl-12 col-lg-12">
+        <div class="card h-100 card-lg border-0">
+          <div class="p-5 pb-2">
+            <h3 class="mb-0 fs-5 fw-semibold"><i class="bi bi-truck me-2 text-primary"></i>Mes dernières commandes</h3>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light" style="background-color: #f9fcf5;">
+                  <tr class="text-muted">
+                    <th scope="col" class="ps-4">N° commande</th>
+                    <th scope="col">Produit / Personnalisation</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Total</th>
+                    <th scope="col" class="pe-4">Statut</th>
+                    <th scope="col" class="pe-4">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @forelse($commandesRecentes as $commande)
+                  <tr>
+                    <td class="ps-4 fw-semibold">{{ $commande->numero_commande }}</td>
+                    <td>
+                      {{ $commande->produits->first()->nom ?? 'Produit' }}
+                      @if($commande->personnalisation_data)
+                        <small class="text-muted d-block">(personnalisé)</small>
+                      @endif
+                    </td>
+                    <td>{{ $commande->created_at->format('d/m/Y') }}</td>
+                    <td>{{ number_format($commande->total, 2, ',', ' ') }} €</td>
+                    <td class="pe-4">
+                      @php
+                        $badgeClass = match($commande->statut) {
+                          'en cours' => 'bg-light-warning text-dark-warning',
+                          'livrée' => 'bg-light-success text-dark-success',
+                          'annulée' => 'bg-light-danger text-dark-danger',
+                          default => 'bg-light-secondary text-dark-secondary'
+                        };
+                      @endphp
+                      <span class="badge {{ $badgeClass }}">{{ ucfirst($commande->statut) }}</span>
+                    </td>
+                    <td class="pe-4">
+                      <a href="{{ route('commandes.show', $commande) }}" class="link-info">Détails</a>
+                    </td>
+                  </tr>
+                  @empty
+                  <tr>
+                    <td colspan="6" class="text-center py-4 text-muted">
+                      <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                      Aucune commande pour le moment.<br>
+                      <a href="{{ route('shop.grid') }}" class="btn btn-sm btn-primary mt-2">Découvrir nos produits</a>
+                    </td>
+                  </tr>
+                  @endforelse
+                </tbody>
+              </table>
+            </div>
+          </div>
+          @if($commandesRecentes->count() > 0)
+          <div class="card-footer bg-transparent border-0 pt-2 pb-4 px-5 text-end">
+            <a href="{{ route('commandes.index') }}" class="btn btn-sm rounded-pill" style="border-color: #8cc63f; color: #4a7729;">Historique complet <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+          @endif
+        </div>
+      </div>
+    </div>
+
+    <!-- Notifications récentes (seulement si pas vides) -->
+    @if($notifications && $notifications->count())
+    <div class="row mt-5">
+      <div class="col-12">
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-header bg-white border-0 pt-4">
+            <h5 class="mb-0 fw-semibold"><i class="bi bi-bell me-2 text-primary"></i>Notifications récentes</h5>
+          </div>
+          <div class="card-body">
+            @foreach($notifications as $notif)
+              <div class="alert alert-light border rounded-3 mb-2">
+                {{ $notif->message ?? 'Notification' }}
+                <small class="text-muted d-block">{{ $notif->created_at->diffForHumans() }}</small>
+              </div>
+            @endforeach
+          </div>
+        </div>
+      </div>
+    </div>
+    @endif
+
+    <!-- Offres (toujours visible, mais avec condition sur le contenu) -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <div class="alert alert-success bg-light-primary border-0 rounded-4 d-flex align-items-center justify-content-between flex-wrap" role="alert">
+          <div>
+            <i class="fas fa-gift fa-2x me-3 text-primary"></i>
+            <span class="fw-semibold">Profitez de nos offres sur les costumes personnalisés !</span>
+          </div>
+          <a href="{{ route('shop.grid') }}" class="btn btn-sm btn-primary rounded-pill mt-2 mt-sm-0">Explorer les offres</a>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+@endsection

@@ -33,6 +33,7 @@ class CartController extends Controller
         //le produit existe dejà dans la session ou le panier
         if (isset($cart[$produitId])) {
             // Incrémente la quantité si le produit est déjà dans le panier
+            $cart[$produitId]['id'] = $produit->id;
              $cart[$produitId]['nom'] = $produit->nom;
               $cart[$produitId]['description'] = $produit->description;
             $cart[$produitId]['quantite']++;
@@ -42,6 +43,7 @@ class CartController extends Controller
         } else {
             // Sinon ajoute le produit avec quantité 1
             $cart[$produitId] = [
+                "id" => $produit->id,
                 "nom" => $produit->nom,
                 "quantite" => 1,
                 "prix" => $produit->prix_base,
@@ -50,7 +52,7 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
-// dd($produit, $cart);
+
         return redirect()->route('cart.index')->with('success', 'Produit ajouté au panier !');
     }
 
