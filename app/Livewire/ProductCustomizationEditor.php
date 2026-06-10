@@ -69,6 +69,12 @@ class ProductCustomizationEditor extends Component
         $option = $this->options->firstWhere('id', $this->activeOptionId);
         return $option ? $option->valeurs : collect();
     }
+
+    // Définir le layout en propriété (méthode Livewire v3)
+    public function layout()
+    {
+        return 'layouts.frontendapp';
+    }
     
     public function render()
     {
