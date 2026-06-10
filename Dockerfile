@@ -1,7 +1,7 @@
-# 1. Utiliser une image PHP-FPM (pas d'Apache)
+# 1. Utiliser une image PHP-FPM
 FROM php:8.2-fpm
 
-# 2. Installation de Nginx et dépendances nécessaires
+# 2. Installation de Nginx et dépendances
 RUN apt-get update && apt-get install -y \
     nginx \
     libpng-dev \
@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 # 3. Installation de Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 4. Configuration Nginx (optimisée pour Laravel)
+# 4. Configuration Nginx
 RUN echo 'server { \
     listen 80; \
     server_name _; \
@@ -44,7 +44,7 @@ RUN echo 'server { \
 
 WORKDIR /var/www/html
 
-# 5. Copier les fichiers de dépendances d'abord (pour optimiser le cache Docker)
+# 5. Copier les fichiers de dépendances
 COPY composer.json composer.lock ./
 COPY package.json package-lock.json ./
 
@@ -57,22 +57,15 @@ RUN npm install
 # 8. Copier tout le reste du code source
 COPY . .
 
-# 9. Builder les assets Vite pour la production (avec APP_URL explicite)
-ENV APP_URL=https://morijahcouture-production.up.railway.app
-ENV ASSET_URL=${APP_URL}
+# 9. Builder les assets Vite
 RUN npm run build
 
 # 10. Permissions pour Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# 11. Optimisations Laravel (optionnel mais recommandé)
-RUN php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
-
-# 12. Exposer le port
+# 11. Exposer le port
 EXPOSE 80
 
-# 13. Commande de démarrage (storage:link + Nginx + PHP-FPM)
+# 12. Commande de démarrage (sans cache config)
 CMD php artisan storage:link && service nginx start && php-fpm -F
