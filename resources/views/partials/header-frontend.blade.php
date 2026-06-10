@@ -247,7 +247,7 @@
             You’ve got FREE delivery. Start <a href="#!" class="alert-link">checkout now!</a>
          </div>
          <!-- ici viendra le contenu réel du panier -->
-         <div class="text-center py-4">Panier à implémenter</div>
+         <div class="text-center py-4">Panier à implementer</div>
       </div>
    </div>
 </div>
