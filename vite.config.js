@@ -32,14 +32,19 @@ export default defineConfig({
         }),
     ],
     build: {
-        manifest: true,
-        rollupOptions: {
-            output: {
-                assetFileNames: 'assets/[name]-[hash][extname]',
-                chunkFileNames: 'assets/[name]-[hash].js',
-                entryFileNames: 'assets/[name]-[hash].js',
-            }
+    manifest: true,
+    rollupOptions: {
+        input: [
+            'resources/sass/app.scss',
+            'resources/js/app.js',
+            'resources/assets/css/theme.min.css',
+        ],
+        output: {
+            assetFileNames: 'assets/[name]-[hash][extname]',
+            chunkFileNames: 'assets/[name]-[hash].js',
+            entryFileNames: 'assets/[name]-[hash].js',
         }
-    },
+    }
+},
     base: '/',  // ← Force les chemins relatifs pour la production
 });
