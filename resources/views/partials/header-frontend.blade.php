@@ -138,7 +138,7 @@
                   <div class="col-lg-2 col-xxl-2 text-end col-md-6 col-7">
                      <div class="list-inline">
                            {{--logic connexion et deconnexion  --}}
-                        <div class="list-inline-item me-5 me-lg-0 " style="position: relative;right:25px;">
+                        {{-- <div class="list-inline-item me-5 me-lg-0 " style="position: relative;right:25px;">
                            <a class="text-muted position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" href="#offcanvasExample" role="button" aria-controls="offcanvasRight">
                              
 
@@ -156,7 +156,25 @@
                                  </form>
                               @endguest
                            </a>
-                        </div> 
+                        </div>  --}}
+                        <div class="list-inline-item me-5 me-lg-0" style="position: relative;right:25px;">
+                              @guest
+                                 <a href="/login" title="Se connecter" class="text-muted" style="text-decoration: none;">
+                                     <i class="fas fa-sign-in-alt fa-lg"></i>
+                                 </a>
+                              @else
+                                 <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="Déconnexion" class="text-muted">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                       <polyline points="16 17 21 12 16 7"></polyline>
+                                       <line x1="21" y1="12" x2="9" y2="12"></line>
+                                    </svg>
+                                 </a>
+                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                 </form>
+                              @endguest
+                           </div>
                         {{-- <div class="list-inline-item me-5">
                            <a href="pages/shop-wishlist.html" class="text-muted position-relative">
                               <svg
