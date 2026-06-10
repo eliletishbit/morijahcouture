@@ -1,3 +1,4 @@
+
 {{-- resources/views/livewire/product-customization-editor.blade.php --}}
 <div style="min-height: 150vh; background: #f8f9fa;">
     <div class="container-fluid py-4">
@@ -40,22 +41,7 @@
                         <h5 class="mb-0 fw-bold">
                             <i class="bi bi-grid-3x3-gap-fill me-2"></i>
 
-
-
-
-
-
-
                             {{--  --}}
-
-
-
-
-
-
-
-
-
                             
                             {{ $options->firstWhere('id', $activeOptionId)?->nom_option }}
                         </h5>
