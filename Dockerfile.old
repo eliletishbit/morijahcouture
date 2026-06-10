@@ -26,16 +26,30 @@ RUN echo 'server { \
 WORKDIR /var/www/html
 
 # 5. Dépendances PHP et JS
+# COPY composer.json composer.lock ./
+# RUN composer install --no-dev --optimize-autoloader --no-scripts
+# COPY package.json package-lock.json ./
+# RUN npm install
+# COPY . .
+# RUN npm run build
+
+# 5. Dépendances PHP et JS
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
+
 COPY package.json package-lock.json ./
-RUN npm install
+# On supprime le node_modules s'il existe et on réinstalle tout proprement
+RUN rm -rf node_modules && npm install
+
 COPY . .
-RUN npm run build
+# On s'assure d'utiliser le binaire local de vite
+RUN APP_URL=https://morijahcouture-production.up.railway.app ./node_modules/.bin/vite build
 
 # 6. Permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # 7. Lancer les DEUX services : Nginx (web) et PHP-FPM (traitement)
 EXPOSE 80
-CMD service nginx start && php-fpm
+
+#créer lien symbolique et lancer les commandes
+CMD php artisan storage:link && service nginx start && php-fpm -F
