@@ -43,7 +43,7 @@ RUN rm -rf node_modules && npm install
 
 COPY . .
 # On s'assure d'utiliser le binaire local de vite
-RUN ./node_modules/.bin/vite build
+RUN APP_URL=https://morijahcouture-production.up.railway.app ./node_modules/.bin/vite build
 
 # 6. Permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
