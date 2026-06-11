@@ -10,7 +10,17 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles & Scripts compilés par Vite -->
-    {{-- @vite(['resources/sass/app.scss', 'resources/assets/css/theme.min.css','resources/js/app.js']) --}}
+    @if(app()->environment('production'))
+    <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/theme.min.css') }}">
+    <script src="{{ asset('build/assets/app.js') }}" defer></script>
+@else
+    @vite([
+        'resources/sass/app.scss', 
+        'resources/assets/css/theme.min.css', 
+        'resources/js/app.js'
+    ])
+@endif
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link href="{{ asset('assets/libs/bootstrap-icons/font/bootstrap-icons.min.css') }}" rel="stylesheet" />
@@ -30,17 +40,7 @@
     <link rel="stylesheet" href="{{ asset('assets/libs/simplebar/dist/simplebar.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
     
-@if(app()->environment('production'))
-    <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/theme.min.css') }}">
-    <script src="{{ asset('build/assets/app.js') }}" defer></script>
-@else
-    @vite([
-        'resources/sass/app.scss', 
-        'resources/assets/css/theme.min.css', 
-        'resources/js/app.js'
-    ])
-@endif
+
 
     <!-- Scripts async dans head (Google, Clarity, etc.) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
