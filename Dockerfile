@@ -74,19 +74,15 @@
 
 
 
-
-# 1. Utiliser une image PHP-FPM seule (pas d'Apache !)
 FROM php:8.2-fpm
 
-# 2. Installation de Nginx et dépendances
 RUN apt-get update && apt-get install -y \
     nginx libpng-dev libzip-dev zip unzip git nodejs npm \
     && docker-php-ext-install pdo_mysql zip
 
-# 3. Installation de Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 4. Configuration Nginx minimale (crée un fichier de config simple)
+# 4. Configuration Nginx avec les règles CORS incluses
 RUN echo 'server { \
     listen 80; \
     index index.php index.html; \
@@ -98,35 +94,26 @@ RUN echo 'server { \
         include fastcgi_params; \
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \
     } \
+    location ~* \.(js|css|woff2|woff|ttf|png|jpg|jpeg|gif|ico|svg)$ { \
+        add_header Access-Control-Allow-Origin *; \
+        expires max; \
+        log_not_found off; \
+    } \
 }' > /etc/nginx/sites-available/default
 
 WORKDIR /var/www/html
 
-# 5. Dépendances PHP et JS
-# COPY composer.json composer.lock ./
-# RUN composer install --no-dev --optimize-autoloader --no-scripts
-# COPY package.json package-lock.json ./
-# RUN npm install
-# COPY . .
-# RUN npm run build
-
-# 5. Dépendances PHP et JS
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 COPY package.json package-lock.json ./
-# On supprime le node_modules s'il existe et on réinstalle tout proprement
-RUN rm -rf node_modules && npm install
+RUN npm install
 
 COPY . .
-# On s'assure d'utiliser le binaire local de vite
 RUN APP_URL=https://morijahcouture-production.up.railway.app ./node_modules/.bin/vite build
 
-# 6. Permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# 7. Lancer les DEUX services : Nginx (web) et PHP-FPM (traitement)
 EXPOSE 80
 
-#créer lien symbolique et lancer les commandes
 CMD php artisan storage:link && service nginx start && php-fpm -F

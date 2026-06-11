@@ -26,5 +26,13 @@ export default defineConfig({
         // Force le build à sortir dans public/build
         outDir: 'public/build',
         manifest: true,
+
+        rollupOptions: {
+        output: {
+            entryFileNames: `assets/[name].js`,
+            chunkFileNames: `assets/[name].js`,
+            assetFileNames: `assets/[name].[ext]`
+        }
+    }
     }
 });
