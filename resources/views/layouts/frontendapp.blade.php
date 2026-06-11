@@ -13,6 +13,7 @@
     @if(app()->environment('production'))
     <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
     <link rel="stylesheet" href="{{ asset('build/assets/theme.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/theme.css') }}">
     <script src="{{ asset('build/assets/app.js') }}" defer></script>
 @else
     @vite([
