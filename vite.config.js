@@ -1,22 +1,3 @@
-// import { defineConfig } from 'vite';
-// import laravel from 'laravel-vite-plugin';
-
-// export default defineConfig({
-//     plugins: [
-//         laravel({
-//            input: [
-//                 'resources/sass/app.scss',
-//                 'resources/js/app.js',
-//                 'resources/assets/css/theme.min.css',
-//             ],
-//             refresh: true,
-//         }),
-//     ],
-
-// });
-
-// nouveau vite js
-
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
@@ -29,22 +10,21 @@ export default defineConfig({
                 'resources/assets/css/theme.min.css',
             ],
             refresh: true,
+            // C'est crucial : cela indique à Laravel de regarder dans le dossier public
+            publicDirectory: 'public',
         }),
     ],
+    // La configuration serveur ci-dessous ne concerne que le mode "npm run dev"
+    // Elle est ignorée en production (npm run build), ce qui est normal.
+    server: {
+        cors: true,
+        hmr: {
+            host: 'localhost',
+        },
+    },
     build: {
-    manifest: true,
-    rollupOptions: {
-        input: [
-            'resources/sass/app.scss',
-            'resources/js/app.js',
-            'resources/assets/css/theme.min.css',
-        ],
-        output: {
-            assetFileNames: 'assets/[name]-[hash][extname]',
-            chunkFileNames: 'assets/[name]-[hash].js',
-            entryFileNames: 'assets/[name]-[hash].js',
-        }
+        // Force le build à sortir dans public/build
+        outDir: 'public/build',
+        manifest: true,
     }
-},
-    base: '/',  // ← Force les chemins relatifs pour la production
 });
