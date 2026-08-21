@@ -44,6 +44,7 @@ RUN APP_URL=https://morijahcouture-production.up.railway.app ./node_modules/.bin
 
 # 4. Créer le fichier SQLite dans /tmp (accessible en écriture)
 RUN touch /tmp/database.sqlite && chmod 664 /tmp/database.sqlite
+RUN chown www-data:www-data /tmp/database.sqlite
 RUN ln -sf /tmp/database.sqlite /var/www/html/database/database.sqlite
 
 # 5. Forcer l'utilisation de SQLite pendant le build (écrase le .env local)

@@ -8,6 +8,9 @@ mkdir -p /var/www/html/bootstrap/cache
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+chown www-data:www-data /tmp/database.sqlite
+chmod 664 /tmp/database.sqlite
+
 # S'assurer que le lien symbolique vers SQLite existe
 ln -sf /tmp/database.sqlite /var/www/html/database/database.sqlite
 
@@ -16,3 +19,4 @@ php artisan migrate --seed --force --verbose || echo "Migration in entrypoint fa
 
 service nginx start
 php-fpm -F
+
