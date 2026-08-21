@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <main class="main-content-wrapper container" style="width:90%;">
   <section class="container px-0">
 
@@ -15,8 +16,7 @@
               <div>
                 <h1 class="display-6 fw-bold" style="color: #2c5a1a;">Bonjour, <span class="text-primary" style="color: #8cc63f;">{{ $user->name ?? 'Client' }}</span></h1>
                 <p class="text-muted mb-3 fs-5">Bienvenue sur votre espace personnel. Commandez des vêtements et costumes sur mesure ou standards, personnalisez-les selon vos envies.</p>
-                {{-- BOUTON SUPPRIMÉ : "Découvrir les produits" (cause erreur sur Render) --}}
-                {{-- <a href="{{ route('shop.grid') }}" class="btn btn-primary shadow-sm"><i class="fas fa-shopping-cart me-2"></i>Découvrir les produits</a> --}}
+                {{-- <a href="{{ route('shop.grid') }}"  class="btn btn-primary shadow-sm"><i class="fas fa-shopping-cart me-2"></i>Découvrir les produits</a> --}}
                 <a href="#mes-commandes" class="btn shadow-sm ms-2" style="border-color: #8cc63f; color: #4a7729;"><i class="fas fa-truck me-2"></i>Mes commandes</a>
               </div>
               <div class="mt-3 mt-md-0">
@@ -92,7 +92,6 @@
       <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
           <h2 class="fs-2 fw-bold" style="color: #2c5a1a;"><i class="fas fa-tshirt me-2 text-primary"></i>Nos créations</h2>
-          {{-- BOUTON SUPPRIMÉ : "Voir tout" (cause erreur sur Render) --}}
           {{-- <a href="{{ route('shop.grid') }}" class="btn btn-sm btn-outline-primary rounded-pill">Voir tout <i class="fas fa-arrow-right ms-1"></i></a> --}}
         </div>
       </div>
@@ -109,7 +108,6 @@
             <p class="text-muted small">Tissu au choix, doublure personnalisée, broderie possible.</p>
             <div class="d-flex justify-content-between align-items-center mt-3">
               <span class="fs-4 fw-bold text-success">249,00 €</span>
-              {{-- BOUTON SUPPRIMÉ : "Personnaliser" (cause erreur sur Render) --}}
               {{-- <a href="{{ route('produits.personnalisation', 1) }}" class="btn btn-sm btn-primary rounded-pill"><i class="fas fa-sliders-h me-1"></i>Personnaliser</a> --}}
             </div>
           </div>
@@ -128,7 +126,6 @@
             <p class="text-muted small">Choix de la coupe, dentelle, couleur Pantone. Délai 15j.</p>
             <div class="d-flex justify-content-between align-items-center mt-3">
               <span class="fs-4 fw-bold text-success">189,00 €</span>
-              {{-- BOUTON SUPPRIMÉ : "Configurer" (cause erreur sur Render) --}}
               {{-- <a href="{{ route('produits.personnalisation', 2) }}" class="btn btn-sm btn-outline-primary rounded-pill"><i class="fas fa-pen-ruler me-1"></i>Configurer</a> --}}
             </div>
           </div>
@@ -147,8 +144,7 @@
             <p class="text-muted small">Taille standard S à XXL, livraison rapide 3-5j.</p>
             <div class="d-flex justify-content-between align-items-center mt-3">
               <span class="fs-4 fw-bold text-success">129,00 €</span>
-              {{-- BOUTON SUPPRIMÉ : "Acheter" (cause erreur sur Render) --}}
-              {{-- <a href="#" class="btn btn-sm btn-success rounded-pill"><i class="fas fa-shopping-bag me-1"></i>Acheter</a> --}}
+              <a href="#" class="btn btn-sm btn-success rounded-pill"><i class="fas fa-shopping-bag me-1"></i>Acheter</a>
             </div>
           </div>
         </div>
@@ -207,8 +203,7 @@
                     <td colspan="6" class="text-center py-4 text-muted">
                       <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                       Aucune commande pour le moment.<br>
-                      {{-- BOUTON SUPPRIMÉ : "Découvrir nos produits" (cause erreur sur Render) --}}
-                      {{-- <a href="{{ route('shop.grid') }}" class="btn btn-sm btn-primary mt-2">Découvrir nos produits</a> --}}
+                      <a href="{{ route('shop.grid') }}" class="btn btn-sm btn-primary mt-2">Découvrir nos produits</a>
                     </td>
                   </tr>
                   @endforelse
@@ -218,14 +213,14 @@
           </div>
           @if($commandesRecentes->count() > 0)
           <div class="card-footer bg-transparent border-0 pt-2 pb-4 px-5 text-end">
-            <a href="{{ route('commandes.index') }}" class="btn btn-sm rounded-pill" style="border-color: #8cc63f; color: #4a7729;">Historique complet <i class="fas fa-arrow-right ms-1"></i></a>
+            {{-- <a href="{{ route('commandes.index') }}" class="btn btn-sm rounded-pill" style="border-color: #8cc63f; color: #4a7729;">Historique complet <i class="fas fa-arrow-right ms-1"></i></a> --}}
           </div>
           @endif
         </div>
       </div>
     </div>
 
-    <!-- Notifications récentes -->
+    <!-- Notifications récentes (seulement si pas vides) -->
     @if($notifications && $notifications->count())
     <div class="row mt-5">
       <div class="col-12">
@@ -246,7 +241,7 @@
     </div>
     @endif
 
-    <!-- Offres -->
+    <!-- Offres (toujours visible, mais avec condition sur le contenu) -->
     <div class="row mt-5">
       <div class="col-12">
         <div class="alert alert-success bg-light-primary border-0 rounded-4 d-flex align-items-center justify-content-between flex-wrap" role="alert">
@@ -254,7 +249,6 @@
             <i class="fas fa-gift fa-2x me-3 text-primary"></i>
             <span class="fw-semibold">Profitez de nos offres sur les costumes personnalisés !</span>
           </div>
-          {{-- BOUTON SUPPRIMÉ : "Explorer les offres" (cause erreur sur Render) --}}
           {{-- <a href="{{ route('shop.grid') }}" class="btn btn-sm btn-primary rounded-pill mt-2 mt-sm-0">Explorer les offres</a> --}}
         </div>
       </div>
