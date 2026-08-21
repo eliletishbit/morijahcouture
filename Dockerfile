@@ -29,8 +29,6 @@ WORKDIR /var/www/html
 
 # 1. Copier les fichiers de dépendances
 COPY composer.json composer.lock ./
-
-# Installer les dépendances (y compris les dev pour Faker)
 RUN composer install --optimize-autoloader --no-scripts
 
 COPY package.json package-lock.json ./
@@ -42,23 +40,10 @@ COPY . .
 # 3. Builder les assets Vite
 RUN APP_URL=https://morijahcouture-production.up.railway.app ./node_modules/.bin/vite build
 
-# 4. Créer le fichier SQLite dans /tmp (accessible en écriture)
-RUN touch /tmp/database.sqlite && chmod 664 /tmp/database.sqlite
-RUN chown www-data:www-data /tmp/database.sqlite
-RUN ln -sf /tmp/database.sqlite /var/www/html/database/database.sqlite
-
-# 5. Forcer l'utilisation de SQLite pendant le build (écrase le .env local)
-ENV DB_CONNECTION=sqlite
-ENV DB_DATABASE=/tmp/database.sqlite
-ENV LOG_CHANNEL=null
-
-# 6. Exécuter les migrations et les seeders (Faker est maintenant installé)
-RUN php artisan migrate --seed --force
-
-# 7. Permissions pour Laravel
+# 4. Permissions pour Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# 8. Entrypoint (pour les permissions à l'exécution)
+# 5. Entrypoint (exécute les migrations au démarrage)
 USER root
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

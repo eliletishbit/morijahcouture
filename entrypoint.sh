@@ -8,15 +8,12 @@ mkdir -p /var/www/html/bootstrap/cache
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-chown www-data:www-data /tmp/database.sqlite
-chmod 664 /tmp/database.sqlite
+# Exécuter les migrations (et seed si besoin) avec les variables d'environnement Render
+php artisan migrate --force
 
-# S'assurer que le lien symbolique vers SQLite existe
-ln -sf /tmp/database.sqlite /var/www/html/database/database.sqlite
+# Optionnel : lancer les seeders (si tu as des données de test)
+php artisan db:seed --force
 
-# (Les migrations sont déjà exécutées pendant le build, mais on les relance au cas où)
-php artisan migrate --seed --force --verbose || echo "Migration in entrypoint failed"
-
+# Démarrer Nginx et PHP-FPM
 service nginx start
 php-fpm -F
-
