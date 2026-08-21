@@ -27,20 +27,31 @@ RUN echo 'server { \
 
 WORKDIR /var/www/html
 
+# 1. Copier les fichiers de dépendances
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 COPY package.json package-lock.json ./
 RUN npm install
 
+# 2. Copier tout le code source
 COPY . .
+
+# 3. Builder les assets
 RUN APP_URL=https://morijahcouture-production.up.railway.app ./node_modules/.bin/vite build
 
+# 4. Créer le fichier SQLite dans /tmp
+RUN touch /tmp/database.sqlite && chmod 664 /tmp/database.sqlite
+RUN ln -sf /tmp/database.sqlite /var/www/html/database/database.sqlite
+
+# 5. Exécuter les migrations (après la copie du code)
+RUN php artisan migrate --seed --force
+
+# 6. Permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Copier le script d'entrée
+# 7. Entrypoint
 USER root
-
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
