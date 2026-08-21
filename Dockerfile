@@ -29,7 +29,9 @@ WORKDIR /var/www/html
 
 # 1. Copier les fichiers de dépendances
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+# Installer les dépendances (y compris les dev pour Faker)
+RUN composer install --optimize-autoloader --no-scripts
 
 COPY package.json package-lock.json ./
 RUN npm install
@@ -49,7 +51,7 @@ ENV DB_CONNECTION=sqlite
 ENV DB_DATABASE=/tmp/database.sqlite
 ENV LOG_CHANNEL=null
 
-# 6. Exécuter les migrations (après copie du code et définition des variables)
+# 6. Exécuter les migrations et les seeders (Faker est maintenant installé)
 RUN php artisan migrate --seed --force
 
 # 7. Permissions pour Laravel
