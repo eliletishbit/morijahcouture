@@ -39,6 +39,8 @@ RUN APP_URL=https://morijahcouture-production.up.railway.app ./node_modules/.bin
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Copier le script d'entrée
+USER root
+
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 

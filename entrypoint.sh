@@ -1,21 +1,21 @@
 #!/bin/bash
 
-# Créer les dossiers s'ils n'existent pas
+# Créer les dossiers nécessaires
 mkdir -p /var/www/html/storage/logs
 mkdir -p /var/www/html/bootstrap/cache
 
-# Forcer les permissions avec sudo
-sudo chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-sudo chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Forcer les permissions avec root
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Créer le fichier SQLite
+# Fichier SQLite
 touch /var/www/html/database/database.sqlite
-sudo chown www-data:www-data /var/www/html/database/database.sqlite
-sudo chmod 664 /var/www/html/database/database.sqlite
+chown www-data:www-data /var/www/html/database/database.sqlite
+chmod 664 /var/www/html/database/database.sqlite
 
-# Lancer les migrations
+# Exécuter les migrations
 php artisan migrate --seed --force
 
-# Démarrer les services
-sudo service nginx start
-sudo php-fpm -F
+# Démarrer Nginx et PHP-FPM
+service nginx start
+php-fpm -F
