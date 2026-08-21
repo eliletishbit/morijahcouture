@@ -8,7 +8,7 @@
 <body>
     <div class="container mt-5">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
-            Ouvrir le modal de test
+            Ouvrir le modal de tes
         </button>
     </div>
 

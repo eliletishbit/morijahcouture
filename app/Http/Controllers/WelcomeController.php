@@ -21,7 +21,7 @@ class WelcomeController extends Controller
         })->with('pieces')->take(20)->get();
 
         // Récupérer les sous-catégories dont categorie_id = 1 / 1 POUR VETEMENTS
-        $sousCategories = SousCategorie::where('categorie_id', 4)->get();
+        $sousCategories = SousCategorie::where('categorie_id', 1)->get();
 
         // Récupérer toutes les catégories
         $categories = Categorie::all();

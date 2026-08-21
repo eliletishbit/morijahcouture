@@ -31,15 +31,18 @@
                             </div>
                         </div>
                     </div>
-                </div><x-ideetenue
+                </div>
             </div>             
         </div>
 
-        {{-- idee tenue --}}
-        {{-- <div class="ideetenue px-4  py-4 " style="background-color:#212727; color:white;">
-                 :tenueproduits="$tenueproduits" />
-        </div> --}}
+     {{-- Bloc Idées de Tenues --}}
+    {{-- <div class="ideetenue px-4 py-4" style="background-color:#212727; color:white;"> 
+        <x-ideetenue :tenueproduits="$tenueproduits" />
+    </div> --}}
        
+        <div class="ideetenue px-4 py-4" style="background-color:#212727; color:white;"> 
+        <x-ideetenue :tenueproduits="$tenueproduits" />
+    </div>
      
         <div class="container py-5 ecologie">
                 {{-- Première rangée --}}
