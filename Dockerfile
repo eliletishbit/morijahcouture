@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Configuration Nginx avec règles CORS
+# Configuration Nginx
 RUN echo 'server { \
     listen 80; \
     index index.php index.html; \
@@ -27,23 +27,18 @@ RUN echo 'server { \
 
 WORKDIR /var/www/html
 
-# 1. Copier les fichiers de dépendances
 COPY composer.json composer.lock ./
 RUN composer install --optimize-autoloader --no-scripts
 
 COPY package.json package-lock.json ./
 RUN npm install
 
-# 2. Copier tout le code source
 COPY . .
 
-# 3. Builder les assets Vite
 RUN APP_URL=https://morijahcouture-production.up.railway.app ./node_modules/.bin/vite build
 
-# 4. Permissions pour Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# 5. Entrypoint (exécute les migrations au démarrage)
 USER root
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
