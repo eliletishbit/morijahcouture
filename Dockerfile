@@ -37,20 +37,25 @@ RUN npm install
 # 2. Copier tout le code source
 COPY . .
 
-# 3. Builder les assets
+# 3. Builder les assets Vite
 RUN APP_URL=https://morijahcouture-production.up.railway.app ./node_modules/.bin/vite build
 
-# 4. Créer le fichier SQLite dans /tmp
+# 4. Créer le fichier SQLite dans /tmp (accessible en écriture)
 RUN touch /tmp/database.sqlite && chmod 664 /tmp/database.sqlite
 RUN ln -sf /tmp/database.sqlite /var/www/html/database/database.sqlite
 
-# 5. Exécuter les migrations (après la copie du code)
+# 5. Forcer l'utilisation de SQLite pendant le build (écrase le .env local)
+ENV DB_CONNECTION=sqlite
+ENV DB_DATABASE=/tmp/database.sqlite
+ENV LOG_CHANNEL=null
+
+# 6. Exécuter les migrations (après copie du code et définition des variables)
 RUN php artisan migrate --seed --force
 
-# 6. Permissions
+# 7. Permissions pour Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# 7. Entrypoint
+# 8. Entrypoint (pour les permissions à l'exécution)
 USER root
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
