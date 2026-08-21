@@ -116,4 +116,4 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 EXPOSE 80
 
-CMD php artisan storage:link && service nginx start && php-fpm -F
+CMD php artisan storage:link || true && service nginx start && php-fpm -F
